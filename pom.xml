@@ -12,7 +12,7 @@
 	<artifactId>archimedes-alexandrian</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Archimedes</name>
-	<description>A tool for database design</description>
+	<description>A tool for database design and data scheme update</description>
 
 	<properties>
 		<java.version>1.8</java.version>
