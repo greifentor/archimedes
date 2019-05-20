@@ -1,10 +1,13 @@
 package de.ollie.archimedes.alexandrian.gui.swing.views.main;
 
+import javax.annotation.PostConstruct;
 import javax.swing.JFrame;
-import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import de.ollie.archimedes.alexandrian.gui.swing.views.main.menu.MainViewMenuBarFactory;
 
 /**
  * A frame which presents the main view of the application
@@ -15,8 +18,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class MainViewFrame extends JFrame {
 
-	private JMenuBar menuBar = null;
+	@Autowired
+	private MainViewMenuBarFactory menuBarProvider;
 
+	@PostConstruct
 	public void blubs() {
 		JOptionPane.showMessageDialog(null, "Archimedes (Alexandrian) started.", "Archimedes (Alexandrian)",
 				JOptionPane.INFORMATION_MESSAGE);

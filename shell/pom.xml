@@ -10,12 +10,12 @@
 	</parent>
 
 	<!-- groupId>de.ollie</groupId -->
-	<artifactId>archimedes-alexandrian-application</artifactId>
+	<artifactId>archimedes-alexandrian-shell</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>Archimedes Alexandrian (Application)</name>
-	<description>The application module for Archimedes Alexandrian</description>
+	<name>Archimedes Alexandrian (Shell)</name>
+	<description>A shell module for Archimedes Alexandrian</description>
 
 	<properties>
 		<java.version>1.8</java.version>

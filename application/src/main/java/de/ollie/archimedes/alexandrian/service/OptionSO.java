@@ -4,12 +4,16 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 /**
- * A container class for database models in service environment.
- * 
+ * A container for option service objects.
+ *
  * @author ollie
  *
  */
 @Data
 @Accessors(chain = true)
-public class DatabaseModelSO {
+public class OptionSO {
+
+	private String name;
+	private String value;
+
 }
