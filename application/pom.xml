@@ -42,8 +42,9 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
+			<groupId>archimedes</groupId>
+			<artifactId>core</artifactId>
+			<version>1.0</version>
 		</dependency>
 		<!-- dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -110,6 +111,59 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<version>2.5.2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.13</version>
+		</dependency>
+		<dependency>
+			<groupId>org.netbeans</groupId>
+			<artifactId>jemmy</artifactId>
+			<version>2.2.7.5</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- Local dependencies -->
+		<dependency>
+			<groupId>archimedes</groupId>
+			<artifactId>core</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>archimedes</groupId>
+			<artifactId>app</artifactId>
+			<version>1.81.1</version>
+		</dependency>
+		<dependency>
+			<groupId>de.ollie</groupId>
+			<artifactId>baccara</artifactId>
+			<version>1.10.1</version>
+		</dependency>
+		<dependency>
+			<groupId>de.ollie</groupId>
+			<artifactId>corent</artifactId>
+			<version>1.67.1</version>
+		</dependency>
+		<dependency>
+			<groupId>de.ollie</groupId>
+			<artifactId>corentx</artifactId>
+			<version>1.46.1</version>
+		</dependency>
+		<dependency>
+			<groupId>de.ollie</groupId>
+			<artifactId>gengen</artifactId>
+			<version>1.12.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
