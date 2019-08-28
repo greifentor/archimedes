@@ -1,14 +1,12 @@
 package de.ollie.archimedes.alexandrian.gui.swing.views.main.menu;
 
-import org.springframework.stereotype.Component;
-
 /**
  * A component which provides a menu bar for the main view.
  *
  * @author ollie
  *
  */
-@Component
+// @Component
 public class MainViewMenuBarFactory {
 
 	private final MainViewMenuBarComponentFactory componentFactory;

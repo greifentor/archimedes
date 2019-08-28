@@ -1,9 +1,8 @@
 package de.ollie.archimedes.alexandrian;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import javax.annotation.PostConstruct;
 
-import de.ollie.archimedes.alexandrian.gui.swing.views.main.MainViewFrame;
+import archimedes.Archimedes;
 
 /**
  * Starts the Archimedes (Alexandrian) application.
@@ -11,15 +10,12 @@ import de.ollie.archimedes.alexandrian.gui.swing.views.main.MainViewFrame;
  * @author ollie
  *
  */
-@Component
+// @Component
 public class ArchimedesSwingStarter {
 
-	@Autowired
-	MainViewFrame mainViewFrame;
-
+	@PostConstruct
 	public void startApplication(String[] args) {
-		System.out.println("Archimedes (Alexandrian) is starting ...");
-		this.mainViewFrame.blubs();
+		Archimedes.main(args);
 	}
 
 }

@@ -5,7 +5,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import de.ollie.archimedes.alexandrian.gui.swing.views.main.menu.MainViewMenuBarFactory;
 
@@ -15,7 +14,7 @@ import de.ollie.archimedes.alexandrian.gui.swing.views.main.menu.MainViewMenuBar
  * @author ollie
  *
  */
-@Component
+// @Component
 public class MainViewFrame extends JFrame {
 
 	@Autowired
