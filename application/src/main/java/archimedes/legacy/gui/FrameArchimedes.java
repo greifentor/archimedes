@@ -9,9 +9,6 @@
 
 package archimedes.legacy.gui;
 
-import gengen.generator.AbstractCodeGenerator;
-import gengen.generator.CodeGenerator;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -63,9 +60,9 @@ import archimedes.acf.CodeGeneratorException;
 import archimedes.acf.ReadyToGenerateChecker;
 import archimedes.acf.checker.ModelChecker;
 import archimedes.acf.checker.ModelCheckerMessage;
+import archimedes.acf.checker.ModelCheckerMessage.Level;
 import archimedes.acf.checker.ModelCheckerThread;
 import archimedes.acf.checker.ModelCheckerThreadObserver;
-import archimedes.acf.checker.ModelCheckerMessage.Level;
 import archimedes.acf.event.CodeFactoryEvent;
 import archimedes.acf.event.CodeFactoryEventType;
 import archimedes.acf.event.CodeFactoryListener;
@@ -162,27 +159,26 @@ import corent.gui.JDialogThrowable;
 import corent.gui.JFrameWithInifile;
 import corent.gui.PropertyRessourceManager;
 import corent.util.MemoryMonitor;
+import de.ollie.archimedes.alexandrian.gui.codegenerator.CodeGeneratorStarter;
+import gengen.generator.AbstractCodeGenerator;
+import gengen.generator.CodeGenerator;
 
 /**
  * Diese Klasse bietet das Hauptfenster der Archimedes-Applikation.
  * 
  * @author ollie
  * 
- * @changed OLI 30.09.2007 - Entfernung des Aufrufs einer aufgehobenen Methode
- *          auf dem Konstruktor.
+ * @changed OLI 30.09.2007 - Entfernung des Aufrufs einer aufgehobenen Methode auf dem Konstruktor.
  * @changed OLI 27.11.2007 - Erweiterung um die Methode <TT>raiseAltered()</TT>.
- * @changed OLI 01.01.2008 - Anpassungen an die Erweiterung der Signatur der
- *          paint-Methode der Klasse ComponentDiagramm.
+ * @changed OLI 01.01.2008 - Anpassungen an die Erweiterung der Signatur der paint-Methode der Klasse ComponentDiagramm.
  * @changed OLI 09.01.2008 - Korrektur der Index-Datengewinnung in der Methode
  *          <TT>getIndexMetadata(JDBCDataSourceRecord)</TT> (private).
- * @changed OLI 16.08.2008 - Erweiterung der Schreibroutine in der Form, das
- *          eine Datei f&uuml;r die Pflege des Datenmodells und eine kleinere
- *          zur Nutzung in der Applikationsschicht geschrieben werden.
- * @changed OLI 22.09.2008 - Austausch der Tilde im CodeGeneratoraufruf durch
- *          den Inhalt der System-Property "user.home". Ich bilde mir ein,
- *          hierdurch eine bessere Konfigurierbarkeit zu erreichen.
- * @changed OLI 02.10.2009 - Verbesserung des Fehlerhandlings beim Bau der
- *          Updatescripte und beim Import von Datenmodellen.
+ * @changed OLI 16.08.2008 - Erweiterung der Schreibroutine in der Form, das eine Datei f&uuml;r die Pflege des
+ *          Datenmodells und eine kleinere zur Nutzung in der Applikationsschicht geschrieben werden.
+ * @changed OLI 22.09.2008 - Austausch der Tilde im CodeGeneratoraufruf durch den Inhalt der System-Property
+ *          "user.home". Ich bilde mir ein, hierdurch eine bessere Konfigurierbarkeit zu erreichen.
+ * @changed OLI 02.10.2009 - Verbesserung des Fehlerhandlings beim Bau der Updatescripte und beim Import von
+ *          Datenmodellen.
  */
 
 public class FrameArchimedes extends JFrameWithInifile implements ActionListener,
@@ -203,31 +199,26 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 	// private ComponentDiagramm component = null;
 	private DiagramComponentPanel<GUIObjectTypes> component = null;
 	/*
-	 * Referenz auf das Diagramm, das mit der Applikation bearbeitet werden
-	 * soll.
+	 * Referenz auf das Diagramm, das mit der Applikation bearbeitet werden soll.
 	 */
 	private DiagrammModel diagramm = null;
 	/* Referenz auf ein eventuell ge&ouml;ffnetes &Uuml;bersichtsfenster. */
 	private FrameOverview fov = null;
 	private GUIBundle guiBundle = null;
 	/*
-	 * Der Men&uuml;punkt zum Zu-/Abschalten der Referenzanzeige im aktuellen
-	 * View.
+	 * Der Men&uuml;punkt zum Zu-/Abschalten der Referenzanzeige im aktuellen View.
 	 */
 	private JCheckBoxMenuItem menuitemswitchrelationtoview = null;
 	/*
-	 * Der Men&uuml;punkt zum Zu-/Abschalten der technischen Felder im aktuellen
-	 * View.
+	 * Der Men&uuml;punkt zum Zu-/Abschalten der technischen Felder im aktuellen View.
 	 */
 	private JCheckBoxMenuItem menuitemswitchtechnicalfieldstoview = null;
 	/*
-	 * Der Men&uuml;punkt zum Zu-/Abschalten der transienten Felder im aktuellen
-	 * View.
+	 * Der Men&uuml;punkt zum Zu-/Abschalten der transienten Felder im aktuellen View.
 	 */
 	private JCheckBoxMenuItem menuitemswitchtransientfieldstoview = null;
 	/*
-	 * Dieser Label zeigt die aktuelle Position der Maus &uuml;ber der
-	 * Diagramm-Komponente an.
+	 * Dieser Label zeigt die aktuelle Position der Maus &uuml;ber der Diagramm-Komponente an.
 	 */
 	// private JLabel labelPosition = new JLabel("(0,0)");
 	/* Referenz auf das Datei-Men&uuml; zwecks Dateinamencache-Erweiterung. */
@@ -237,18 +228,15 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 	/* Cache der Namen der letzten gespeicherten Dateien. */
 	private JMenuItem[] dateinamencache = new JMenuItem[20];
 	/*
-	 * MenuItem, das die Aktion zum Einf&uuml;gen einer Tabelle in das
-	 * Datenmodell ausl&ouml;st.
+	 * MenuItem, das die Aktion zum Einf&uuml;gen einer Tabelle in das Datenmodell ausl&ouml;st.
 	 */
 	private JMenuItem menuitemneutabelle = null;
 	/*
-	 * MenuItem, das die Aktion zum Einf&uuml;gen einer Standardtabelle in das
-	 * Datenmodell ausl&ouml;st.
+	 * MenuItem, das die Aktion zum Einf&uuml;gen einer Standardtabelle in das Datenmodell ausl&ouml;st.
 	 */
 	private JMenuItem menuitemneustandardtabelle = null;
 	/*
-	 * MenuItem, das die Aktion zum Einf&uuml;gen einer Tabelle in eine View
-	 * ausl&ouml;st.
+	 * MenuItem, das die Aktion zum Einf&uuml;gen einer Tabelle in eine View ausl&ouml;st.
 	 */
 	private JMenuItem menuitemtabletoview = null;
 	/* Semaphore zur Absicherung der Speicherns und des Beendens. */
@@ -258,8 +246,7 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 	/* Der Pfad, in dem die Diagramme gespeichert werden sollen. */
 	private String datenpfad = ".";
 	/*
-	 * Die Benutzerinformationen des Benutzer der Installation, z. B. fuer
-	 * Generatoren.
+	 * Die Benutzerinformationen des Benutzer der Installation, z. B. fuer Generatoren.
 	 */
 	private UserInformation userInformation = null;
 	private DiagramGUIObjectCreator guiObjectCreator = null;
@@ -271,17 +258,13 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 	private ModelCheckerMessageListFrame modelCheckerMessageListFrame = null;
 
 	/**
-	 * Erzeugt einen neuen FrameArchimedes anhand der &uuml;bergebenen
-	 * Parameter.
+	 * Erzeugt einen neuen FrameArchimedes anhand der &uuml;bergebenen Parameter.
 	 * 
-	 * @param guiBundle
-	 *            A bundle with GUI information.
-	 * @param serverMode
-	 *            Set this flag if the application is started in server mode.
+	 * @param guiBundle  A bundle with GUI information.
+	 * @param serverMode Set this flag if the application is started in server mode.
 	 * 
-	 * @changed OLI 30.09.2007 - Ersetzen des Aufrufs der aufgehobenen Methode
-	 *          <TT>setRasterwidth(int)</TT> des <TT>component</TT>-Objekts
-	 *          gegen den der Methode <TT>setRasterWidth(int)</TT>.
+	 * @changed OLI 30.09.2007 - Ersetzen des Aufrufs der aufgehobenen Methode <TT>setRasterwidth(int)</TT> des
+	 *          <TT>component</TT>-Objekts gegen den der Methode <TT>setRasterWidth(int)</TT>.
 	 */
 	public FrameArchimedes(GUIBundle guiBundle, boolean serverMode) {
 		super("", guiBundle.getInifile());
@@ -298,14 +281,13 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 		this.diagramm.addDataModelListener(this);
 		this.diagramm.addDiagrammModelListener(this);
 		this.diagramm.addGUIDiagramModelListener(this);
-		this.diagramm.getViews().add(
-				(GUIViewModel) Archimedes.Factory.createMainView("Main",
-						"Diese Sicht beinhaltet alle Tabellen des Schemas", true));
+		this.diagramm.getViews().add((GUIViewModel) Archimedes.Factory.createMainView("Main",
+				"Diese Sicht beinhaltet alle Tabellen des Schemas", true));
 		this.guiObjectCreator = new DiagramGUIObjectCreator(this.diagramm);
 		this.component = new DiagramComponentPanel<GUIObjectTypes>((GUIViewModel) this.diagramm.getViews().get(0),
-				ComponentDiagramm.DOTSPERPAGEX * ComponentDiagramm.PAGESPERROW, ComponentDiagramm.DOTSPERPAGEY
-						* ComponentDiagramm.PAGESPERCOLUMN, this.diagramm, this.guiObjectCreator, this,
-				new ArchimedesStatusBarRenderer(), new DefaultCopyAndPasteController());
+				ComponentDiagramm.DOTSPERPAGEX * ComponentDiagramm.PAGESPERROW,
+				ComponentDiagramm.DOTSPERPAGEY * ComponentDiagramm.PAGESPERCOLUMN, this.diagramm, this.guiObjectCreator,
+				this, new ArchimedesStatusBarRenderer(), new DefaultCopyAndPasteController());
 		this.component.updateWarnings(this.guiBundle.getResourceText(RES_WARNING_MESSAGES_NO_WARNINGS));
 		this.component.addDiagramComponentPanelListener(this);
 		this.datenpfad = this.getInifile().readStr("Datei", "Default", this.datenpfad);
@@ -375,7 +357,7 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 			String s = ini.readStr("Dateicache", "Datei" + i, null);
 			if (s != null) {
 				j++;
-				menuItem = new JMenuItem("" /* + j + " " */+ s);
+				menuItem = new JMenuItem("" /* + j + " " */ + s);
 				menuItem.addActionListener(this.actionListenerDateiCache);
 				menu.add(menuItem);
 				this.dateinamencache[j - 1] = menuItem;
@@ -464,9 +446,9 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 			public void actionPerformed(ActionEvent e) {
 				VersionIncrementer.State rc = new VersionIncrementer().increment(diagramm);
 				if (rc == VersionIncrementer.State.SCRIPTS_CLEANED_ONLY) {
-					Object version = JOptionPane.showInputDialog(null, StrUtil
-							.ToHTML("Version konnte nicht erh&ouml;ht werden!"), StrUtil
-							.ToHTML("Problem: Versionserh&ouml;hung"), JOptionPane.QUESTION_MESSAGE, null, null,
+					Object version = JOptionPane.showInputDialog(null,
+							StrUtil.ToHTML("Version konnte nicht erh&ouml;ht werden!"),
+							StrUtil.ToHTML("Problem: Versionserh&ouml;hung"), JOptionPane.QUESTION_MESSAGE, null, null,
 							diagramm.getVersion());
 					if (version != null) {
 						diagramm.setVersion(String.valueOf(version));
@@ -493,8 +475,8 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 		menuBar.add(menu);
 		menu = this.createMenu("menu.zoom", "zoom");
 		for (i = 1; i < 11; i++) {
-			menuItem = new JMenuItem(this.guiBundle.getResourceText("menu.zoom.item.zoom.title").replace("{0}",
-					String.valueOf(i * 10)));
+			menuItem = new JMenuItem(
+					this.guiBundle.getResourceText("menu.zoom.item.zoom.title").replace("{0}", String.valueOf(i * 10)));
 			menuItem.setMnemonic(new Integer(i).toString().charAt(0));
 			if (i == 10) {
 				menuItem.setMnemonic('0');
@@ -561,21 +543,21 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 						doViewsEinfuegen();
 					}
 				});
-		this.menuitemswitchrelationtoview = new JCheckBoxMenuItem(this.guiBundle
-				.getResourceText("menu.views.item.show.relations.title"), ((ViewModel) this.component.getView())
-				.isShowReferencedColumns());
+		this.menuitemswitchrelationtoview = new JCheckBoxMenuItem(
+				this.guiBundle.getResourceText("menu.views.item.show.relations.title"),
+				((ViewModel) this.component.getView()).isShowReferencedColumns());
 		this.menuitemswitchrelationtoview.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				((ViewModel) component.getView()).setShowReferencedColumns(((JCheckBoxMenuItem) e.getSource())
-						.getState());
+				((ViewModel) component.getView())
+						.setShowReferencedColumns(((JCheckBoxMenuItem) e.getSource()).getState());
 				raiseAltered();
 				doRepaint();
 			}
 		});
-		this.menuitemswitchtechnicalfieldstoview = new JCheckBoxMenuItem(this.guiBundle
-				.getResourceText("menu.views.item.hide.technical.fields.title"), ((ViewModel) this.component.getView())
-				.isHideTechnicalFields());
+		this.menuitemswitchtechnicalfieldstoview = new JCheckBoxMenuItem(
+				this.guiBundle.getResourceText("menu.views.item.hide.technical.fields.title"),
+				((ViewModel) this.component.getView()).isHideTechnicalFields());
 		this.menuitemswitchtechnicalfieldstoview.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -585,9 +567,9 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 				doRepaint();
 			}
 		});
-		this.menuitemswitchtransientfieldstoview = new JCheckBoxMenuItem(this.guiBundle
-				.getResourceText("menu.views.item.hide.transient.fields.title"), ((ViewModel) this.component.getView())
-				.isHideTransientFields());
+		this.menuitemswitchtransientfieldstoview = new JCheckBoxMenuItem(
+				this.guiBundle.getResourceText("menu.views.item.hide.transient.fields.title"),
+				((ViewModel) this.component.getView()).isHideTransientFields());
 		this.menuitemswitchtransientfieldstoview.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -653,19 +635,19 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 	}
 
 	private void createUserInformations(Inifile ini) {
-		this.userInformation = new DefaultUserInformation(System.getProperty("archimedes.user.name", "UNKNOWN"), System
-				.getProperty("archimedes.user.token", "N/A"), System.getProperty("archimedes.user.company", "UNKNOWN"));
+		this.userInformation = new DefaultUserInformation(System.getProperty("archimedes.user.name", "UNKNOWN"),
+				System.getProperty("archimedes.user.token", "N/A"),
+				System.getProperty("archimedes.user.company", "UNKNOWN"));
 	}
 
 	/**
-	 * Diese Methode wird ausgef&uuml;hrt, wenn der Benutzer den Men&uuml;punkt
-	 * &Ouml;ffnen w&auml;hlt.
+	 * Diese Methode wird ausgef&uuml;hrt, wenn der Benutzer den Men&uuml;punkt &Ouml;ffnen w&auml;hlt.
 	 */
 	public void doDateiOeffnen() {
 		if (this.diagramm.isAltered()) {
-			int option = JOptionPane.showConfirmDialog(null, StrUtil.FromHTML("Das Diagramm "
-					+ "ist ge&auml;ndert worden!\nM&ouml;chten Sie es speichern?"), "Diagramm nicht" + " gespeichert",
-					JOptionPane.YES_NO_CANCEL_OPTION);
+			int option = JOptionPane.showConfirmDialog(null,
+					StrUtil.FromHTML("Das Diagramm " + "ist ge&auml;ndert worden!\nM&ouml;chten Sie es speichern?"),
+					"Diagramm nicht" + " gespeichert", JOptionPane.YES_NO_CANCEL_OPTION);
 			if (option == JOptionPane.YES_OPTION) {
 				if ((this.dateiname.length() == 0) || (this.dateiname.equalsIgnoreCase("unbenannt.ads"))) {
 					this.doDateiSpeichernUnter();
@@ -691,11 +673,9 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 	}
 
 	/**
-	 * Diese Methode wird ausgef&uuml;hrt, wenn der Benutzer den Men&uuml;punkt
-	 * &Ouml;ffnen w&auml;hlt.
+	 * Diese Methode wird ausgef&uuml;hrt, wenn der Benutzer den Men&uuml;punkt &Ouml;ffnen w&auml;hlt.
 	 * 
-	 * @param dn
-	 *            Der Name der einzulesenden Datei.
+	 * @param dn Der Name der einzulesenden Datei.
 	 */
 	public void doDateiOeffnen(String dn) {
 		this.doDateiOeffnen(dn, true);
@@ -704,11 +684,9 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 	/**
 	 * This method is called if the user clicks the menu item "file / open".
 	 * 
-	 * @param fileName
-	 *            The name of the file to read.
-	 * @param ask
-	 *            If this flag is set in case of an altered data model, it will
-	 *            be asked for saving the current model.
+	 * @param fileName The name of the file to read.
+	 * @param ask      If this flag is set in case of an altered data model, it will be asked for saving the current
+	 *                 model.
 	 * 
 	 * @changed OLI 18.03.2016 - Comment to English. Introduced XML files.
 	 */
@@ -717,10 +695,11 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 		int leni = 0;
 		if (ask && this.diagramm.isAltered()) {
 			boolean errors = this.isErrorsFound(this.diagramm, false);
-			int option = JOptionPane.showConfirmDialog(null, this.guiBundle
-					.getResourceText((errors ? "archimedes.open.file.altered.warning.with.errors.text"
-							: "archimedes.open.file.altered.warning.text")), this.guiBundle
-					.getResourceText("archimedes.open.file.altered.warning.title"), JOptionPane.YES_NO_CANCEL_OPTION);
+			int option = JOptionPane.showConfirmDialog(null,
+					this.guiBundle.getResourceText((errors ? "archimedes.open.file.altered.warning.with.errors.text"
+							: "archimedes.open.file.altered.warning.text")),
+					this.guiBundle.getResourceText("archimedes.open.file.altered.warning.title"),
+					JOptionPane.YES_NO_CANCEL_OPTION);
 			if (option == JOptionPane.YES_OPTION) {
 				if ((this.dateiname.length() == 0) || (this.dateiname.equalsIgnoreCase("unbenannt.ads"))) {
 					this.doDateiSpeichernUnter();
@@ -776,8 +755,7 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 	}
 
 	/**
-	 * Diese Methode wird ausgef&uuml;hrt, wenn der Benutzer den Men&uuml;punkt
-	 * Speichern unter... w&auml;hlt.
+	 * Diese Methode wird ausgef&uuml;hrt, wenn der Benutzer den Men&uuml;punkt Speichern unter... w&auml;hlt.
 	 */
 	public void doDateiSpeichernUnter() {
 		String dn = "";
@@ -797,15 +775,12 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 	/**
 	 * Stores the data model in the file system.
 	 * 
-	 * @param fileName
-	 *            The name of the file which the data model is to store into.
-	 * @param ignoreErrors
-	 *            Set this flag if a model with errors is to be stored also.
+	 * @param fileName     The name of the file which the data model is to store into.
+	 * @param ignoreErrors Set this flag if a model with errors is to be stored also.
 	 * 
-	 * @changed OLI 16.08.2008 - There will be two different versions of the
-	 *          model stored: one is for editing the data model, the other for
-	 *          using as application layer in Archimedes applications (this
-	 *          works for ADS files only).
+	 * @changed OLI 16.08.2008 - There will be two different versions of the model stored: one is for editing the data
+	 *          model, the other for using as application layer in Archimedes applications (this works for ADS files
+	 *          only).
 	 * @changed OLI 11.07.2016 - Refactored.
 	 */
 	public void doDateiSpeichern(String name, boolean ignoreErrors) {
@@ -816,9 +791,9 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 			this.semSpeichern.P();
 			try {
 				if (name.endsWith("ads")) {
-					int option = JOptionPane.showConfirmDialog(null, this.guiBundle
-							.getResourceText("archimedes.save.file.old.format.warning.text"), this.guiBundle
-							.getResourceText("archimedes.save.file.old.format.warning.title"),
+					int option = JOptionPane.showConfirmDialog(null,
+							this.guiBundle.getResourceText("archimedes.save.file.old.format.warning.text"),
+							this.guiBundle.getResourceText("archimedes.save.file.old.format.warning.title"),
 							JOptionPane.YES_NO_OPTION);
 					if (option == JOptionPane.YES_OPTION) {
 						StructuredTextFile stf = this.diagramm.toSTF(DiagramSaveMode.REGULAR);
@@ -833,8 +808,8 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 				} else {
 					FileWriter fw = new FileWriter(name, false);
 					BufferedWriter writer = new BufferedWriter(fw);
-					writer.write(new DiagramXMLBuilder().buildXMLContentForDiagram(this.diagramm, Archimedes.PALETTE
-							.getColors().toArray(new ExtendedColor[0])));
+					writer.write(new DiagramXMLBuilder().buildXMLContentForDiagram(this.diagramm,
+							Archimedes.PALETTE.getColors().toArray(new ExtendedColor[0])));
 					writer.close();
 					fw.close();
 					this.dateiname = name;
@@ -876,8 +851,8 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 			}
 			if (messages.size() > 0) {
 				if (showErrors) {
-					new ModelCheckerMessageListDialog(this, this.guiBundle, messages
-							.toArray(new ModelCheckerMessage[0]), false);
+					new ModelCheckerMessageListDialog(this, this.guiBundle,
+							messages.toArray(new ModelCheckerMessage[0]), false);
 				}
 				return true;
 			}
@@ -926,22 +901,20 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 	}
 
 	/**
-	 * Diese Methode wird aufgerufen, wenn der Benutzer den Men&uuml;punkt Datei
-	 * / Drucken bet&auml;tigt hat.
+	 * Diese Methode wird aufgerufen, wenn der Benutzer den Men&uuml;punkt Datei / Drucken bet&auml;tigt hat.
 	 */
 	public void doDateiDrucken() {
-		new DiagramPrinter().print(this, this.getInifile(), this.component, this.getInifile().readBool("Print", "PDF",
-				false), this.getInifile().readStr("Print", "Printername", "normal_gray"), this.getInifile().readStr(
-				"Print", "Printfilename", "archimedes"));
+		new DiagramPrinter().print(this, this.getInifile(), this.component,
+				this.getInifile().readBool("Print", "PDF", false),
+				this.getInifile().readStr("Print", "Printername", "normal_gray"),
+				this.getInifile().readStr("Print", "Printfilename", "archimedes"));
 	}
 
 	/**
-	 * Diese Methode wird aufgerufen, wenn der Benutzer den Men&uuml;punkt Datei
-	 * / Grafikexport aufruft.
+	 * Diese Methode wird aufgerufen, wenn der Benutzer den Men&uuml;punkt Datei / Grafikexport aufruft.
 	 * 
-	 * @changed OLI 01.01.2008 - Anpassung an die neue Signatur des
-	 *          paint-Aufrufes der ComponentDiagramm zur Kennzeichnung von
-	 *          Ausdrucken oder Grafikexporten.<BR>
+	 * @changed OLI 01.01.2008 - Anpassung an die neue Signatur des paint-Aufrufes der ComponentDiagramm zur
+	 *          Kennzeichnung von Ausdrucken oder Grafikexporten.<BR>
 	 * 
 	 */
 	public void doDateiGrafikexport() {
@@ -959,11 +932,11 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 			this.semSpeichern.P();
 			boolean errorsFound = this.isErrorsFound(this.diagramm, false);
 			if (this.diagramm.isAltered()) {
-				int answer = JOptionPane.showConfirmDialog(null, StrUtil
-						.FromHTML("Das Diagramm ist ge&auml;ndert worden!\n"
+				int answer = JOptionPane.showConfirmDialog(null,
+						StrUtil.FromHTML("Das Diagramm ist ge&auml;ndert worden!\n"
 								+ (errorsFound ? "DAS MODELL ENTH&Auml;LT FEHLER!\n" : "") + "M&ouml;chten Sie es "
-								+ (errorsFound ? "trotzdem " : "") + "speichern?"), "Diagramm nicht gespeichert",
-						JOptionPane.YES_NO_CANCEL_OPTION);
+								+ (errorsFound ? "trotzdem " : "") + "speichern?"),
+						"Diagramm nicht gespeichert", JOptionPane.YES_NO_CANCEL_OPTION);
 				if (answer == JOptionPane.YES_OPTION) {
 					this.semSpeichern.V();
 					if ((this.dateiname.length() == 0) || (this.dateiname.equalsIgnoreCase("unbenannt.ads"))) {
@@ -1009,8 +982,7 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 	private VersionStringBuilder versionStringBuilder = new VersionStringBuilder();
 
 	/**
-	 * This method will be called if the menu item
-	 * "info / versions to clip board" is selected.
+	 * This method will be called if the menu item "info / versions to clip board" is selected.
 	 * 
 	 * @changed OLI 18.04.2017 - Added.
 	 */
@@ -1025,12 +997,10 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 	}
 
 	/**
-	 * Diese Methode wird aufgerufen, wenn der Benutzer den Men&uuml;punkt Neu /
-	 * Tabelle bet&auml;tigt.
+	 * Diese Methode wird aufgerufen, wenn der Benutzer den Men&uuml;punkt Neu / Tabelle bet&auml;tigt.
 	 * 
-	 * @param filled
-	 *            Wird diese Flagge gesetzt, so wird eine Tabelle mit den
-	 *            &uuml;blichen Standard-Einstellungen und -Spalten generiert.
+	 * @param filled Wird diese Flagge gesetzt, so wird eine Tabelle mit den &uuml;blichen Standard-Einstellungen und
+	 *               -Spalten generiert.
 	 */
 	public void doNeuTabelle(boolean filled) {
 		this.component.setInsertMode(true);
@@ -1057,8 +1027,7 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 	}
 
 	/**
-	 * Diese Methode &ouml;ffnet ein zus&auml;tzliches Fenster mit einer
-	 * 10%-Darstellung des Datenmodells.
+	 * Diese Methode &ouml;ffnet ein zus&auml;tzliches Fenster mit einer 10%-Darstellung des Datenmodells.
 	 * 
 	 * @changed OLI 16.12.2008 - Hinzugef&uuml;gt.
 	 *          <P>
@@ -1074,8 +1043,8 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 	}
 
 	/**
-	 * Diese Methode erzeugt oder aktualisiert (falls bereits vorhanden) einen
-	 * Satz von Domains, der immer wieder gern genutzt wird :o)
+	 * Diese Methode erzeugt oder aktualisiert (falls bereits vorhanden) einen Satz von Domains, der immer wieder gern
+	 * genutzt wird :o)
 	 */
 	public void doDomainsAnlegen() {
 		String dn = "";
@@ -1165,8 +1134,7 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 	}
 
 	/**
-	 * Diese Methode wird aufgerufen, wenn der Benutzer den Men&uuml;punkt
-	 * Bearbeiten / Domains bet&auml;tigt.
+	 * Diese Methode wird aufgerufen, wenn der Benutzer den Men&uuml;punkt Bearbeiten / Domains bet&auml;tigt.
 	 */
 	public void doBearbeitenDomains() {
 		final DiagrammModel dm = this.diagramm;
@@ -1178,8 +1146,9 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 				for (TableModel tm : tables) {
 					for (ColumnModel cm : tm.getColumns()) {
 						if (cm.getDomain() == obj) {
-							JOptionPane.showMessageDialog(null, StrUtil.FromHTML("Die Domain " + "wird durch "
-									+ cm.getFullName() + " genutzt!\n" + "L&ouml;schen nicht m&ouml;glich!"),
+							JOptionPane.showMessageDialog(null,
+									StrUtil.FromHTML("Die Domain " + "wird durch " + cm.getFullName() + " genutzt!\n"
+											+ "L&ouml;schen nicht m&ouml;glich!"),
 									"Referenzproblem!", JOptionPane.YES_OPTION);
 							System.out.println("Domain wird benutzt durch " + cm.getFullName());
 							return false;
@@ -1199,22 +1168,22 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 	}
 
 	/**
-	 * This method will be called if the user selects the edit / sequences menu
-	 * item.
+	 * This method will be called if the user selects the edit / sequences menu item.
 	 */
 	public void doEditSequences() {
 		final DiagrammModel dm = this.diagramm;
-		FrameSelectionEditorDjinn fsd = new FrameSelectionEditorDjinn(this.guiBundle
-				.getResourceText("sequences.maintenance.title"), dm.getSequencesByReference(), (Sequence) dm
-				.createSequence(), this.getInifile(), true) {
+		FrameSelectionEditorDjinn fsd = new FrameSelectionEditorDjinn(
+				this.guiBundle.getResourceText("sequences.maintenance.title"), dm.getSequencesByReference(),
+				(Sequence) dm.createSequence(), this.getInifile(), true) {
 			@Override
 			public boolean permitDelete(Object obj) {
 				for (TableModel tm : dm.getTables()) {
 					for (ColumnModel cm : tm.getColumns()) {
 						if (cm.getSequenceForKeyGeneration() == obj) {
-							JOptionPane.showMessageDialog(null, guiBundle.getResourceText(
-									"sequences.maintenance.permit.delete.text").replace("$NAME$",
-									((SequenceModel) obj).getName()).replace("$COLUMNNAME$", cm.getFullName()),
+							JOptionPane.showMessageDialog(null,
+									guiBundle.getResourceText("sequences.maintenance.permit.delete.text")
+											.replace("$NAME$", ((SequenceModel) obj).getName())
+											.replace("$COLUMNNAME$", cm.getFullName()),
 									guiBundle.getResourceText("sequences.maintenance.permit.delete.title"),
 									JOptionPane.YES_OPTION);
 							return false;
@@ -1233,8 +1202,7 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 	}
 
 	/**
-	 * Diese Methode wird aufgerufen, wenn der Benutzer den Men&uuml;punkt
-	 * Bearbeiten / Komplexe Indices aufruft.
+	 * Diese Methode wird aufgerufen, wenn der Benutzer den Men&uuml;punkt Bearbeiten / Komplexe Indices aufruft.
 	 */
 	public void doBearbeitenKomplexeIndices() {
 		new ComplexIndicesAdministrationFrame("Complex index administration", this.getInifile(), this.diagramm,
@@ -1242,20 +1210,20 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 	}
 
 	/**
-	 * Diese Methode wird aufgerufen, wenn der Benutzer den Men&uuml;punkt
-	 * Bearbeiten / Stereotype bet&auml;tigt.
+	 * Diese Methode wird aufgerufen, wenn der Benutzer den Men&uuml;punkt Bearbeiten / Stereotype bet&auml;tigt.
 	 */
 	public void doBearbeitenStereotype() {
 		final DiagrammModel dm = this.diagramm;
-		FrameSelectionEditorDjinn fsd = new FrameSelectionEditorDjinn("Auswahl Stereotypen", dm
-				.getStereotypeReference(), (Stereotype) dm.createStereotype(), this.getInifile(), true) {
+		FrameSelectionEditorDjinn fsd = new FrameSelectionEditorDjinn("Auswahl Stereotypen",
+				dm.getStereotypeReference(), (Stereotype) dm.createStereotype(), this.getInifile(), true) {
 			@Override
 			public boolean permitDelete(Object obj) {
 				for (TableModel tm : dm.getTables()) {
 					for (StereotypeModel stm : tm.getStereotypes()) {
 						if (stm == obj) {
-							JOptionPane.showMessageDialog(null, StrUtil.FromHTML("Die " + "Stereotype wird durch "
-									+ tm.getName() + " genutzt!\n" + "L&ouml;schen nicht m&ouml;glich!"),
+							JOptionPane.showMessageDialog(null,
+									StrUtil.FromHTML("Die " + "Stereotype wird durch " + tm.getName() + " genutzt!\n"
+											+ "L&ouml;schen nicht m&ouml;glich!"),
 									"Referenzproblem!", JOptionPane.YES_OPTION);
 							System.out.println("Stereotype wird benutzt durch " + tm.getName());
 							return false;
@@ -1275,8 +1243,7 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 	}
 
 	/**
-	 * Diese Methode wird aufgerufen, wenn der Benutzer den Men&uuml;punkt
-	 * Bearbeiten / Views bet&auml;tigt.
+	 * Diese Methode wird aufgerufen, wenn der Benutzer den Men&uuml;punkt Bearbeiten / Views bet&auml;tigt.
 	 */
 	public void doBearbeitenViews() {
 		final DiagrammModel dm = this.diagramm;
@@ -1309,15 +1276,14 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 		bc.setLanguage(System.getProperty("archimedes.user.language", ""));
 		bc.setUserName(System.getProperty("archimedes.user.name", ""));
 		bc.setUserToken(System.getProperty("archimedes.user.token", ""));
-		BaseConfigurationFrame bcf = new BaseConfigurationFrame(bc, this.guiBundle
-				.getResourceText("BaseconfigurationFrame.title"), this.guiBundle);
+		BaseConfigurationFrame bcf = new BaseConfigurationFrame(bc,
+				this.guiBundle.getResourceText("BaseconfigurationFrame.title"), this.guiBundle);
 		bcf.addEditorFrameListener(this);
 		bcf.setVisible(true);
 	}
 
 	/**
-	 * Diese Methode wird aufgerufen, wenn der Benutzer den Men&uuml;punkt
-	 * Bearbeiten / Diagrammparameter bet&auml;tigt.
+	 * Diese Methode wird aufgerufen, wenn der Benutzer den Men&uuml;punkt Bearbeiten / Diagrammparameter bet&auml;tigt.
 	 */
 	public void doBearbeitenDiagrammparameter() {
 		this.setPredeterminedOptionProviderForDiagram();
@@ -1343,11 +1309,9 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 	/**
 	 * Sets the passed user ping as new user ping for the frame.
 	 * 
-	 * @param userPing
-	 *            The new user ping for the frame.
+	 * @param userPing The new user ping for the frame.
 	 * 
-	 * @changed OLI 22.03.2016 - Added. / public void setUserPing(UserPing
-	 *          userPing) { this.userPing = userPing; }
+	 * @changed OLI 22.03.2016 - Added. / public void setUserPing(UserPing userPing) { this.userPing = userPing; }
 	 * 
 	 *          /** Starts the database connections maintenance.
 	 * 
@@ -1388,8 +1352,8 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 						}
 						createSQLUpdateScript(dcr);
 					} catch (Exception e) {
-						new JDialogThrowable(e, guiBundle
-								.getResourceText("archimedes.ConnectFrame.error.connection.failed.title"),
+						new JDialogThrowable(e,
+								guiBundle.getResourceText("archimedes.ConnectFrame.error.connection.failed.title"),
 								getInifile(), new PropertyRessourceManager());
 					}
 				}
@@ -1414,11 +1378,9 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 	}
 
 	/**
-	 * Diese Methode wird aufgerufen, wenn der Benutzer den Men&uuml;punkt Zoom
-	 * / Zoom n% bet&auml;tigt.
+	 * Diese Methode wird aufgerufen, wenn der Benutzer den Men&uuml;punkt Zoom / Zoom n% bet&auml;tigt.
 	 * 
-	 * @param factor
-	 *            Der neue Zoomfaktor.
+	 * @param factor Der neue Zoomfaktor.
 	 */
 	public void doZoom(double factor) {
 		this.component.setZoomFactor(factor);
@@ -1426,11 +1388,10 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 	}
 
 	/**
-	 * Diese Methode wird aufgerufen, wenn der Benutzer den Men&uuml;punkt Zoom
-	 * / Tabelle finden anclickt.
+	 * Diese Methode wird aufgerufen, wenn der Benutzer den Men&uuml;punkt Zoom / Tabelle finden anclickt.
 	 * 
-	 * @changed OLI 27.02.2009 - Die &Auml;nderungsflagge wird nach der
-	 *          Tabellenauswahl nicht mehr gesetzt (ist ja auch nicht sinnvoll).
+	 * @changed OLI 27.02.2009 - Die &Auml;nderungsflagge wird nach der Tabellenauswahl nicht mehr gesetzt (ist ja auch
+	 *          nicht sinnvoll).
 	 *          <P>
 	 * 
 	 */
@@ -1453,38 +1414,19 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 	}
 
 	/**
-	 * Diese Methode wird aufgerufen, wenn der Benutzer den Men&uuml;punkt
-	 * Genrieren / Codegeneratoroptionen (&Uuml;bersicht) anclickt.
+	 * Diese Methode wird aufgerufen, wenn der Benutzer den Men&uuml;punkt Genrieren / Codegeneratoroptionen
+	 * (&Uuml;bersicht) anclickt.
 	 */
 	public void doGeneratorOptionen() {
 		new DialogTableGeneratorOptions(this, this.getInifile(), this.diagramm);
 	}
 
 	/**
-	 * This Method is called if the user clicks on the menu item "Generate" /
-	 * "Code".
+	 * This Method is called if the user clicks on the menu item "Generate" / "Code".
 	 */
 	public void doGenerateCode() {
-		final String path = this.diagramm.getCodePfad().replace("~", System.getProperty("user.home"));
-		final Object cf = this.getCodeFactory(path);
-		if (cf instanceof CodeGenerator) {
-			try {
-				((CodeGenerator) cf).generate(this.diagramm);
-			} catch (Exception e) {
-				new JDialogThrowable(e, "Error while running code generator " + cf.getClass().getSimpleName() + "!",
-						this.getInifile(), new PropertyRessourceManager());
-			}
-		} else {
-			final FrameArchimedes fa = this;
-			Thread t = new Thread(new Runnable() {
-				public void run() {
-					((CodeFactory) cf).addCodeFactoryListener(fa);
-					((CodeFactory) cf).setDataModel(fa.diagramm);
-					((CodeFactory) cf).generate(path);
-				}
-			});
-			t.start();
-		}
+		new CodeGeneratorStarter(this.diagramm.getCodeFactoryClassName(),
+				this.diagramm.getCodePfad().replace("~", System.getProperty("user.home")), this.diagramm).start();
 	}
 
 	private Object getCodeFactory(String path) {
@@ -1504,8 +1446,9 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 					}
 					return cg;
 				} catch (Exception e) {
-					new JDialogThrowable(e, "Klasse " + cfcn + " kann nicht als Code-Generator "
-							+ "instanziert werden!", this.getInifile(), new PropertyRessourceManager());
+					new JDialogThrowable(e,
+							"Klasse " + cfcn + " kann nicht als Code-Generator " + "instanziert werden!",
+							this.getInifile(), new PropertyRessourceManager());
 				}
 			}
 			cf = Archimedes.Factory.createCodeFactory(cfcn);
@@ -1529,12 +1472,9 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 	/**
 	 * Liefert eine Liste mit den Index-Metadaten aus der angegebenen Datenbank.
 	 * 
-	 * @param dsr
-	 *            Die Daten zur Verbindung mit der Datenbank.
-	 * @param schemaName
-	 *            Ein Schemaname, falls das Modell auf ein spezielles Schema der
-	 *            Datenbank abgestimmt werden soll. Soll das Defaultschema
-	 *            genutzt werden, kann der Name leer &uuml;bergeben werden.
+	 * @param dsr        Die Daten zur Verbindung mit der Datenbank.
+	 * @param schemaName Ein Schemaname, falls das Modell auf ein spezielles Schema der Datenbank abgestimmt werden
+	 *                   soll. Soll das Defaultschema genutzt werden, kann der Name leer &uuml;bergeben werden.
 	 * @return Eine Liste mit den Index-Metadaten aus der angegebenen Datenbank.
 	 * 
 	 * @changed OLI 01.06.2009 - Hinzugef&uuml;gt.
@@ -1560,17 +1500,12 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 	}
 
 	/**
-	 * Liefert eine Liste mit den Unique-Metadaten aus der angegebenen
-	 * Datenbank.
+	 * Liefert eine Liste mit den Unique-Metadaten aus der angegebenen Datenbank.
 	 * 
-	 * @param dsr
-	 *            Die Daten zur Verbindung mit der Datenbank.
-	 * @param schemaName
-	 *            Ein Schemaname, falls das Modell auf ein spezielles Schema der
-	 *            Datenbank abgestimmt werden soll. Soll das Defaultschema
-	 *            genutzt werden, kann der Name leer &uuml;bergeben werden.
-	 * @return Eine Liste mit den Unique-Metadaten aus der angegebenen
-	 *         Datenbank.
+	 * @param dsr        Die Daten zur Verbindung mit der Datenbank.
+	 * @param schemaName Ein Schemaname, falls das Modell auf ein spezielles Schema der Datenbank abgestimmt werden
+	 *                   soll. Soll das Defaultschema genutzt werden, kann der Name leer &uuml;bergeben werden.
+	 * @return Eine Liste mit den Unique-Metadaten aus der angegebenen Datenbank.
 	 * 
 	 * @changed OLI 011.0.6.2013 - Hinzugef&uuml;gt.
 	 * 
@@ -1638,9 +1573,9 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 							svt.addElement(new ReferenceImportRecord(fktn, fkcn, pktn, pkcn));
 						}
 						DBExec.CloseQuery(rs);
-						System.out.print("\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
-								+ StrUtil.PumpUp("" + --max, " ", 10, Direction.LEFT)
-								+ StrUtil.PumpUp("" + j, " ", 5, Direction.LEFT));
+						System.out.print(
+								"\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b" + StrUtil.PumpUp("" + --max, " ", 10, Direction.LEFT)
+										+ StrUtil.PumpUp("" + j, " ", 5, Direction.LEFT));
 						if (Long.getLong("archimedes.gui.FrameArchimedes.import.delay", 250) > 0) {
 							Thread th = new Thread() {
 								@Override
@@ -1693,22 +1628,15 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 	/**
 	 * Updates the model name in the user ping.
 	 * 
-	 * @param modelName
-	 *            The new model name for the user ping.
+	 * @param modelName The new model name for the user ping.
 	 * 
-	 * @changed OLI 22.03.2016 - Added. / public void updateUserPingModelName()
-	 *          { if ((this.diagramm != null) && (this.userPing != null)) {
-	 *          this.userPing.setCurrentModelName(this.diagramm.getName()); } }
+	 * @changed OLI 22.03.2016 - Added. / public void updateUserPingModelName() { if ((this.diagramm != null) &&
+	 *          (this.userPing != null)) { this.userPing.setCurrentModelName(this.diagramm.getName()); } }
 	 * 
-	 *          /** Aktualisiert das View-Men&uuml; anhand der Viewliste des
-	 *          &uuml;bergebenen Diagramms.
+	 *          /** Aktualisiert das View-Men&uuml; anhand der Viewliste des &uuml;bergebenen Diagramms.
 	 * 
-	 * @param menu
-	 *            Referenz auf das Men&uuml;, dessen Inhalt aus der Viewliste
-	 *            gebildet werden soll.
-	 * @param views
-	 *            Die Liste der Views, die in das Men&uuml; &uuml;bernommen
-	 *            werden sollen.
+	 * @param menu  Referenz auf das Men&uuml;, dessen Inhalt aus der Viewliste gebildet werden soll.
+	 * @param views Die Liste der Views, die in das Men&uuml; &uuml;bernommen werden sollen.
 	 */
 	public void updateViewMenu(JMenu menu, java.util.List<GUIViewModel> views) {
 		menu.removeAll();
@@ -1728,10 +1656,8 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 	/**
 	 * Updates the warning message.
 	 * 
-	 * @param message
-	 *            The message which is to update.
-	 * @param warning
-	 *            Set this flag if the message notifies a warning or an error.
+	 * @param message The message which is to update.
+	 * @param warning Set this flag if the message notifies a warning or an error.
 	 * 
 	 * @changed OLI 18.05.2016 - Added.
 	 */
@@ -1772,11 +1698,9 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 	}
 
 	/**
-	 * Aktualisiert die Komponente zum Anzeigen des Diagramms auf den
-	 * angegebenen View.
+	 * Aktualisiert die Komponente zum Anzeigen des Diagramms auf den angegebenen View.
 	 * 
-	 * @param view
-	 *            Der View, den die Komponente anzeigen soll.
+	 * @param view Der View, den die Komponente anzeigen soll.
 	 */
 	public void doChangeView(GUIViewModel view) {
 		this.component.setView(view);
@@ -1784,8 +1708,7 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 	}
 
 	/**
-	 * Diese Methode wird aufgerufen, wenn der Meb&uuml;punkt Views / Tabelle
-	 * einf&uuml;gen anclickt.
+	 * Diese Methode wird aufgerufen, wenn der Meb&uuml;punkt Views / Tabelle einf&uuml;gen anclickt.
 	 */
 	public void doViewsEinfuegen() {
 		corentx.util.SortedVector<TableModel> sv = new corentx.util.SortedVector<TableModel>();
@@ -1798,8 +1721,8 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 				for (int i = 0, len = values.size(); i < len; i++) {
 					TabellenModel tm = (TabellenModel) values.elementAt(i);
 					if (!tm.getViews().contains(component.getView())) {
-						tm.setXY((GUIViewModel) component.getView(), tm.getX(diagramm.getViews().get(0)), tm
-								.getY(diagramm.getViews().get(0)));
+						tm.setXY((GUIViewModel) component.getView(), tm.getX(diagramm.getViews().get(0)),
+								tm.getY(diagramm.getViews().get(0)));
 					}
 					diagramm.raiseAltered();
 					component.doRepaint();
@@ -1811,8 +1734,7 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 	/**
 	 * Shows a monitor with the running Archimedes instances.
 	 * 
-	 * @changed OLI 15.03.2016 - Added. / public void doServerMonitor() { new
-	 *          UserMonitorFrame(this.guiBundle); }
+	 * @changed OLI 15.03.2016 - Added. / public void doServerMonitor() { new UserMonitorFrame(this.guiBundle); }
 	 * 
 	 *          /** Setzt die Ge&auml;ndert-Flagge des aktuellen Diagramms.
 	 * 
@@ -1833,8 +1755,8 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 			BaseConfigurationFrameEvent bcfe = (BaseConfigurationFrameEvent) e;
 			if (bcfe.getEventType() == EditorFrameEventType.OK) {
 				BaseConfiguration bc = bcfe.getEditedObject();
-				String propfn = corentx.io.FileUtil.completePath(System.getProperty("user.home")).concat(
-						".archimedes.properties");
+				String propfn = corentx.io.FileUtil.completePath(System.getProperty("user.home"))
+						.concat(".archimedes.properties");
 				System.setProperty("archimedes.user.company", bc.getCompany());
 				System.getProperty("archimedes.user.database.name", bc.getDBName());
 				System.getProperty("archimedes.user.database.server.name", bc.getDBServerName());
@@ -1893,8 +1815,9 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 	private void editTable(GUIObjectModel object, final ComponentDiagramm component) {
 		this.setPredeterminedOptionProviderForDiagram();
 		final TabellenModel tab = (TabellenModel) object;
-		new FrameEditorDjinn(StrUtil.FromHTML(this.guiBundle.getResourceText(RES_TABLE_FRAME_EDIT_TITLE, object
-				.getName())), tab, ini) {
+		new FrameEditorDjinn(
+				StrUtil.FromHTML(this.guiBundle.getResourceText(RES_TABLE_FRAME_EDIT_TITLE, object.getName())), tab,
+				ini) {
 			@Override
 			public void doChanged(boolean saveOnly) {
 				diagramm.raiseAltered();
@@ -1912,19 +1835,22 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 		ColumnModel[] rcms = tab.getDataModel().getReferencers(tab);
 		if (!(component.getView() instanceof MainViewModel)) {
 			String[] options = new String[] { "View", "Modell" };
-			if (options[JOptionPane.showOptionDialog(null, StrUtil.FromHTML("Soll die "
-					+ "Tabelle nur aus dem View\noder aus dem Modell gel&ouml;scht " + "werden?"), StrUtil
-					.FromHTML("R&uuml;ckfrage L&ouml;schen"), JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
-					null, options, options[0])].equals("View")) {
+			if (options[JOptionPane.showOptionDialog(null,
+					StrUtil.FromHTML(
+							"Soll die " + "Tabelle nur aus dem View\noder aus dem Modell gel&ouml;scht " + "werden?"),
+					StrUtil.FromHTML("R&uuml;ckfrage L&ouml;schen"), JOptionPane.DEFAULT_OPTION,
+					JOptionPane.QUESTION_MESSAGE, null, options, options[0])].equals("View")) {
 				tab.removeFromView((ViewModel) component.getView());
 				component.doRepaint();
 				return;
 			}
 		}
 		if (rcms.length > 0) {
-			JOptionPane.showMessageDialog(null, StrUtil.FromHTML("Die Tabellen wird " + "durch "
-					+ rcms[0].getFullName() + " referenziert!\n" + "L&ouml;schen nicht m&ouml;glich!"),
-					"Referenzproblem!", JOptionPane.YES_OPTION);
+			JOptionPane
+					.showMessageDialog(null,
+							StrUtil.FromHTML("Die Tabellen wird " + "durch " + rcms[0].getFullName()
+									+ " referenziert!\n" + "L&ouml;schen nicht m&ouml;glich!"),
+							"Referenzproblem!", JOptionPane.YES_OPTION);
 			System.out.println("Wird Referenziert durch " + rcms[0].getFullName());
 			return;
 		}
@@ -2126,12 +2052,11 @@ public class FrameArchimedes extends JFrameWithInifile implements ActionListener
 		} else {
 			e.printStackTrace();
 		}
-		new JDialogThrowable(
-				e,
+		new JDialogThrowable(e,
 				(userMessage != null ? userMessage : "Error while running code " + "generator " + name + "!"),
 				this.getInifile(),
-				(this.guiBundle.getResourceManager() instanceof PropertyRessourceManager ? (PropertyRessourceManager) this.guiBundle
-						.getResourceManager()
+				(this.guiBundle.getResourceManager() instanceof PropertyRessourceManager
+						? (PropertyRessourceManager) this.guiBundle.getResourceManager()
 						: new PropertyRessourceManager()));
 	}
 
