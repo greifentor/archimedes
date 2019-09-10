@@ -11,10 +11,10 @@ package archimedes.legacy.scheme.stf.writer;
 
 import org.apache.log4j.Logger;
 
+import archimedes.legacy.model.NReferenceModel;
 import archimedes.legacy.model.NReferenzModel;
+import archimedes.legacy.model.TableModel;
 import archimedes.legacy.scheme.stf.handler.STFNReferenceHandler;
-import archimedes.model.NReferenceModel;
-import archimedes.model.TableModel;
 import corent.files.StructuredTextFile;
 
 /**

@@ -11,13 +11,13 @@ package archimedes.legacy.scheme;
 
 import java.io.File;
 
-import archimedes.acf.checker.ModelChecker;
-import archimedes.acf.event.CodeFactoryListener;
-import archimedes.gui.checker.ModelCheckerMessageListFrameListener;
 import archimedes.legacy.Archimedes;
+import archimedes.legacy.acf.checker.ModelChecker;
+import archimedes.legacy.acf.event.CodeFactoryListener;
+import archimedes.legacy.acf.gui.checker.ModelCheckerMessageListFrameListener;
+import archimedes.legacy.model.CodeFactory;
+import archimedes.legacy.model.DataModel;
 import archimedes.legacy.model.DiagrammModel;
-import archimedes.model.CodeFactory;
-import archimedes.model.DataModel;
 import baccara.gui.GUIBundle;
 import corent.util.FileUtil;
 
@@ -39,8 +39,7 @@ public class CodeFactoryMock implements CodeFactory {
 	/**
 	 * Generiert ein CodeFactoryMock mit dem angegebenen Code.
 	 * 
-	 * @param code
-	 *            Der Code, den das CodeFactoryMock erzeugen soll.
+	 * @param code Der Code, den das CodeFactoryMock erzeugen soll.
 	 */
 	public CodeFactoryMock(String code) {
 		super();

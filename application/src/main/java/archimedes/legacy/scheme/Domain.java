@@ -15,14 +15,13 @@ import java.sql.Types;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import archimedes.acf.util.ParameterUtil;
 import archimedes.legacy.Archimedes;
+import archimedes.legacy.acf.util.ParameterUtil;
 import archimedes.legacy.app.ArchimedesEditorDescriptor;
 import archimedes.legacy.gui.CommentSubEditorFactory;
 import archimedes.legacy.gui.HistoryOwnerSubEditorFactory;
-import archimedes.model.DomainModel;
-import archimedes.model.OptionModel;
-import archimedes.scheme.Option;
+import archimedes.legacy.model.DomainModel;
+import archimedes.legacy.model.OptionModel;
 import corent.base.Attributed;
 import corent.base.Direction;
 import corent.base.StrUtil;

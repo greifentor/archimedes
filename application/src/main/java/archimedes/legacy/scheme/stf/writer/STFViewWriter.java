@@ -12,9 +12,9 @@ package archimedes.legacy.scheme.stf.writer;
 import org.apache.log4j.Logger;
 
 import archimedes.legacy.model.DiagramSaveMode;
+import archimedes.legacy.model.TableModel;
+import archimedes.legacy.model.ViewModel;
 import archimedes.legacy.scheme.stf.handler.STFViewHandler;
-import archimedes.model.TableModel;
-import archimedes.model.ViewModel;
 import corent.files.StructuredTextFile;
 
 /**

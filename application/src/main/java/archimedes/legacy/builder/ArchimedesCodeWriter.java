@@ -14,23 +14,23 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Vector;
 
-import archimedes.acf.checker.ModelChecker;
-import archimedes.acf.event.CodeFactoryListener;
-import archimedes.gui.checker.ModelCheckerMessageListFrameListener;
 import archimedes.legacy.Archimedes;
+import archimedes.legacy.acf.checker.ModelChecker;
+import archimedes.legacy.acf.event.CodeFactoryListener;
+import archimedes.legacy.acf.gui.checker.ModelCheckerMessageListFrameListener;
+import archimedes.legacy.model.CodeFactory;
+import archimedes.legacy.model.DataModel;
 import archimedes.legacy.model.DiagrammModel;
+import archimedes.legacy.model.RelationModel;
 import archimedes.legacy.model.TabellenModel;
 import archimedes.legacy.model.TabellenspaltenModel;
 import archimedes.legacy.scheme.Diagramm;
-import archimedes.model.CodeFactory;
-import archimedes.model.DataModel;
-import archimedes.model.RelationModel;
 import baccara.gui.GUIBundle;
 import corent.files.StructuredTextFile;
 
 /**
- * Diese Klasse erm&ouml;glicht das Erzeugen von Fifth-Code f&uuml;r
- * Untersuchung einer DB auf referenzielle und inhaltliche Integrit&auml;t.
+ * Diese Klasse erm&ouml;glicht das Erzeugen von Fifth-Code f&uuml;r Untersuchung einer DB auf referenzielle und
+ * inhaltliche Integrit&auml;t.
  * 
  * @author Volodymyr Medvid
  * 
@@ -46,13 +46,10 @@ public class ArchimedesCodeWriter implements CodeFactory {
 	}
 
 	/**
-	 * Untersucht alle Tabellen, erzeugt Fifth-Code (checkref und checknull) und
-	 * speichert ihn in eine Datei.
+	 * Untersucht alle Tabellen, erzeugt Fifth-Code (checkref und checknull) und speichert ihn in eine Datei.
 	 * 
-	 * @param dataModel
-	 *            DataModel
-	 * @param out
-	 *            Name der Ausgabedatei
+	 * @param dataModel DataModel
+	 * @param out       Name der Ausgabedatei
 	 * @return TRUE, wenn Fifth-Code erzeugt wurde.
 	 */
 	public boolean generate(String out) {
@@ -83,11 +80,9 @@ public class ArchimedesCodeWriter implements CodeFactory {
 	}
 
 	/**
-	 * Sucht alle Referezen im Tabellenmodell und erzeugt den Fifth-Code
-	 * f&uuml;r die Pr&uuml;fung dieser Referenzen.
+	 * Sucht alle Referezen im Tabellenmodell und erzeugt den Fifth-Code f&uuml;r die Pr&uuml;fung dieser Referenzen.
 	 * 
-	 * @param tm
-	 *            ein Tabellenmodell, das durchgesucht werden soll
+	 * @param tm ein Tabellenmodell, das durchgesucht werden soll
 	 * @return der erzeugte Fifth-Code
 	 */
 	public String getCheckrefCode(TabellenModel tm) {
@@ -119,11 +114,9 @@ public class ArchimedesCodeWriter implements CodeFactory {
 	}
 
 	/**
-	 * Sucht alle NotNull-Spallten im Tabellenmodell und erzeugt den Fith-Code
-	 * f&uuml;r die Pruefung dieser Spalten.
+	 * Sucht alle NotNull-Spallten im Tabellenmodell und erzeugt den Fith-Code f&uuml;r die Pruefung dieser Spalten.
 	 * 
-	 * @param tm
-	 *            ein Tabellenmodell, das durchgesucht werden soll
+	 * @param tm ein Tabellenmodell, das durchgesucht werden soll
 	 * @return der erzeugte Fifth-Code
 	 */
 	public String getChecknullCode(TabellenModel tm) {
@@ -160,8 +153,7 @@ public class ArchimedesCodeWriter implements CodeFactory {
 	/**
 	 * Mit dieser Methode kann der ArchimedesCodeWriter gestartet werden.
 	 * 
-	 * Als erstes Element im args-Array wird der Name des ADS-Datei
-	 * &uuml;bergeben. Als zweites - Ausgabedateiname.
+	 * Als erstes Element im args-Array wird der Name des ADS-Datei &uuml;bergeben. Als zweites - Ausgabedateiname.
 	 */
 	public static void main(String[] args) {
 		if (args.length == 0) {

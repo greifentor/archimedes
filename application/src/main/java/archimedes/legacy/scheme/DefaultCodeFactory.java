@@ -22,23 +22,22 @@ import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
-import archimedes.acf.checker.ModelChecker;
-import archimedes.acf.event.CodeFactoryListener;
-import archimedes.gui.checker.ModelCheckerMessageListFrameListener;
 import archimedes.legacy.Archimedes;
+import archimedes.legacy.acf.checker.ModelChecker;
+import archimedes.legacy.acf.event.CodeFactoryListener;
+import archimedes.legacy.acf.gui.checker.ModelCheckerMessageListFrameListener;
+import archimedes.legacy.model.CodeFactory;
+import archimedes.legacy.model.ColumnModel;
+import archimedes.legacy.model.DataModel;
 import archimedes.legacy.model.DefaultCommentModel;
 import archimedes.legacy.model.DiagrammModel;
+import archimedes.legacy.model.DomainModel;
+import archimedes.legacy.model.NReferenceModel;
 import archimedes.legacy.model.NReferenzModel;
+import archimedes.legacy.model.StereotypeModel;
 import archimedes.legacy.model.TabellenModel;
 import archimedes.legacy.model.TabellenspaltenModel;
-import archimedes.model.CodeFactory;
-import archimedes.model.ColumnModel;
-import archimedes.model.DataModel;
-import archimedes.model.DomainModel;
-import archimedes.model.NReferenceModel;
-import archimedes.model.StereotypeModel;
-import archimedes.model.ToStringContainerModel;
-import archimedes.scheme.SelectionMember;
+import archimedes.legacy.model.ToStringContainerModel;
 import baccara.gui.GUIBundle;
 import corent.base.SortedVector;
 import corent.base.StrUtil;
@@ -49,9 +48,8 @@ import corent.dates.PTime;
 import corent.dates.PTimestamp;
 
 /**
- * Diese Code-Factory generiert Java-Code aus dem Archimedes-Standard-Modell.
- * Der Code mu&szlig; zum Einsatz mit einer Datenbank erheblich erweitert
- * werden.
+ * Diese Code-Factory generiert Java-Code aus dem Archimedes-Standard-Modell. Der Code mu&szlig; zum Einsatz mit einer
+ * Datenbank erheblich erweitert werden.
  * <P>
  * Die CodeFactory reagiert auf folgende Stereotypen: <BR>
  * &nbsp;
@@ -62,40 +60,33 @@ import corent.dates.PTimestamp;
  * </TR>
  * <TR VALIGN=TOP>
  * <TD>Cached</TD>
- * <TD>Es wird ein Cache als statische Variable in die Klasse eingebaut.
- * Au&szlig;erdem wird das Interface EditorDjinnMaster implementiert und damit
- * eine Cacheaktualisierung angeregt, wenn ein EditorDjinn, der ein Objekt
+ * <TD>Es wird ein Cache als statische Variable in die Klasse eingebaut. Au&szlig;erdem wird das Interface
+ * EditorDjinnMaster implementiert und damit eine Cacheaktualisierung angeregt, wenn ein EditorDjinn, der ein Objekt
  * dieser Klasse anzeigt, mit &Uuml;bernahme ge&auml;ndert wird.</TD>
  * </TR>
  * <TR VALIGN=TOP>
  * <TD>ColumnViewable</TD>
- * <TD>Eine automatische Implementierung der Methodenr&uuml;pfe des
- * ColumnViewable-Interfaces.</TD>
+ * <TD>Eine automatische Implementierung der Methodenr&uuml;pfe des ColumnViewable-Interfaces.</TD>
  * </TR>
  * <TR VALIGN=TOP>
  * <TD>Deactivatable (Deaktivierbar)</TD>
- * <TD>Die eigentliche Implementierung dieses Interfaces findet im Udschebti
- * statt. Hier wird immer eine vorsorgliche Implementierung vorgehalten. Das
- * Interface Deactivatable kennzeichnet quasi nur noch die Klassen, die von der
- * DB-Schicht tats&auml;chlich entsprechend behandelt werden sollen (Setzen
- * einer Gel&ouml;schtflagge, statt eines physikalischen L&ouml;schens).</TD>
+ * <TD>Die eigentliche Implementierung dieses Interfaces findet im Udschebti statt. Hier wird immer eine vorsorgliche
+ * Implementierung vorgehalten. Das Interface Deactivatable kennzeichnet quasi nur noch die Klassen, die von der
+ * DB-Schicht tats&auml;chlich entsprechend behandelt werden sollen (Setzen einer Gel&ouml;schtflagge, statt eines
+ * physikalischen L&ouml;schens).</TD>
  * </TR>
  * <TR VALIGN=TOP>
  * <TD>LastModificationTracker</TD>
- * <TD>Mit diesem Interface verh&auml;lt es sich ebenso, wie mit dem Interface
- * Deactivatable. Die Implementierung der Methoden sollte &uuml;ber den
- * Udschebti erledigt werden. Hei&szlig;t die Tabellenspalte zur Aufnahme des
- * Zeitstempels der letzten &Auml;nderung anders als "LastModificationDate"
- * m&uuml;ssen die beiden Methoden des Interfaces per Hand implementiert werden.
- * </TD>
+ * <TD>Mit diesem Interface verh&auml;lt es sich ebenso, wie mit dem Interface Deactivatable. Die Implementierung der
+ * Methoden sollte &uuml;ber den Udschebti erledigt werden. Hei&szlig;t die Tabellenspalte zur Aufnahme des Zeitstempels
+ * der letzten &Auml;nderung anders als "LastModificationDate" m&uuml;ssen die beiden Methoden des Interfaces per Hand
+ * implementiert werden.</TD>
  * </TR>
  * <TR VALIGN=TOP>
  * <TD>Traceable</TD>
- * <TD>&Uuml;ber dieses Interface wird eine Klasse kennzeichnet, die den Zustand
- * ihrer Datens&auml;tze nach jeder &Auml;nderung festhalten soll. Hierzu ist es
- * allerdings erforderlich, da&szlig; es sich bei der Applikation um eine
- * "ArchimedesTracingApplication" handelt, die in der Lage ist auf die "trace
- * events" zu reagieren.</TD>
+ * <TD>&Uuml;ber dieses Interface wird eine Klasse kennzeichnet, die den Zustand ihrer Datens&auml;tze nach jeder
+ * &Auml;nderung festhalten soll. Hierzu ist es allerdings erforderlich, da&szlig; es sich bei der Applikation um eine
+ * "ArchimedesTracingApplication" handelt, die in der Lage ist auf die "trace events" zu reagieren.</TD>
  * </TR>
  * </TABLE>
  * 
@@ -111,23 +102,21 @@ import corent.dates.PTimestamp;
  * <TD>archimedes.scheme.DefaultCodeFactory.ts.package</TD>
  * <TD>String</TD>
  * <TD>corentx.dates</TD>
- * <TD>&Uuml;ber diese Property kann der Name des Packages gesetzt werden, in
- * dem sich die Zeitstempelimplementierungen zum System befinden.</TD>
+ * <TD>&Uuml;ber diese Property kann der Name des Packages gesetzt werden, in dem sich die Zeitstempelimplementierungen
+ * zum System befinden.</TD>
  * </TR>
  * </TABLE>
  * 
  * <P>
- * Zudem wird das Interface Ordered automatisch implementiert, wenn das
- * TabellenModel zur einer Tabelle wenigsten ein OrderMember hat.
+ * Zudem wird das Interface Ordered automatisch implementiert, wenn das TabellenModel zur einer Tabelle wenigsten ein
+ * OrderMember hat.
  * 
  * @author ollie
  * 
- * @changed OLI 11.02.2008 - Implementierung der Beachtung einer alternativen
- *          Udschebti-Basisklasse, sofern eine solche angegeben ist.
- * @changed OLI 26.03.2008 - Erste Implementierungen zum Thema generierte
- *          Ressourcendateien.
- * @changed OLI 16.08.2008 - Anpassungen der generierten Klassenkommentare an
- *          das aktuelle Format.
+ * @changed OLI 11.02.2008 - Implementierung der Beachtung einer alternativen Udschebti-Basisklasse, sofern eine solche
+ *          angegeben ist.
+ * @changed OLI 26.03.2008 - Erste Implementierungen zum Thema generierte Ressourcendateien.
+ * @changed OLI 16.08.2008 - Anpassungen der generierten Klassenkommentare an das aktuelle Format.
  */
 
 public class DefaultCodeFactory implements CodeFactory {
@@ -148,8 +137,8 @@ public class DefaultCodeFactory implements CodeFactory {
 
 	public boolean generate(String out) {
 		DiagrammModel dm = (DiagrammModel) this.dataModel;
-		JOptionPane.showMessageDialog(null, StrUtil.FromHTML("Code wird generiert nach:\n" + out), StrUtil
-				.FromHTML("Codegenerator"), JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(null, StrUtil.FromHTML("Code wird generiert nach:\n" + out),
+				StrUtil.FromHTML("Codegenerator"), JOptionPane.INFORMATION_MESSAGE);
 		try {
 			this.path = out;
 			SortedVector sv = new SortedVector();
@@ -167,8 +156,8 @@ public class DefaultCodeFactory implements CodeFactory {
 			for (int i = 0, len = tabellen.size(); i < len; i++) {
 				TabellenModel tm = (TabellenModel) tabellen.elementAt(i);
 				if (tm.isActiveInApplication()) {
-					String packagename = this.makeDirAndPackage(tm, dm.getCodePfad().replace("~",
-							System.getProperty("user.home")), dm.getBasePackageName());
+					String packagename = this.makeDirAndPackage(tm,
+							dm.getCodePfad().replace("~", System.getProperty("user.home")), dm.getBasePackageName());
 					if (!sv.contains("import " + packagename)) {
 						sv.addElement("import " + packagename);
 						sv.addElement("import " + packagename + ".db");
@@ -182,8 +171,8 @@ public class DefaultCodeFactory implements CodeFactory {
 			sv.addElement("import corent.gui");
 			sv.addElement("import java.util");
 			sv.addElement("import javax.swing");
-			System.out.println("writing " + path + dm.getApplicationName() + "/" + dm.getApplicationName()
-					+ "Core.java");
+			System.out
+					.println("writing " + path + dm.getApplicationName() + "/" + dm.getApplicationName() + "Core.java");
 			Vector zeilen = new Vector();
 			zeilen.addElement("/*");
 			zeilen.addElement(" * " + dm.getApplicationName() + "Core.java");
@@ -230,8 +219,8 @@ public class DefaultCodeFactory implements CodeFactory {
 			zeilen.addElement("     * Erzeugt eine Instanz der " + dm.getApplicationName() + "-Basisklasse.");
 			zeilen.addElement("     *");
 			zeilen.addElement("     * @param title Der Titel des Hauptfensters.");
-			zeilen.addElement("     * @param ini Die Inidatei, aus der die Anwendung ihre "
-					+ "Voreinstellungen beziehen soll.");
+			zeilen.addElement(
+					"     * @param ini Die Inidatei, aus der die Anwendung ihre " + "Voreinstellungen beziehen soll.");
 			zeilen.addElement("     */");
 			zeilen.addElement("    public " + dm.getApplicationName() + "Core(String title, " + "Inifile ini) {");
 			zeilen.addElement("        super(title, ini);");
@@ -242,11 +231,10 @@ public class DefaultCodeFactory implements CodeFactory {
 			zeilen.addElement("     *");
 			zeilen.addElement("     * @param adf Die ArchimedesDescriptorFactory der Anwendung.");
 			zeilen.addElement("     */");
-			zeilen.addElement("    public Hashtable<Class, DBFactory> createFactories("
-					+ "ArchimedesDescriptorFactory adf) {");
-			zeilen
-					.addElement("        Hashtable<Class, DBFactory> factories = new "
-							+ "Hashtable<Class, DBFactory>();");
+			zeilen.addElement(
+					"    public Hashtable<Class, DBFactory> createFactories(" + "ArchimedesDescriptorFactory adf) {");
+			zeilen.addElement(
+					"        Hashtable<Class, DBFactory> factories = new " + "Hashtable<Class, DBFactory>();");
 			for (int i = 0, len = tabellen.size(); i < len; i++) {
 				TabellenModel tm = (TabellenModel) tabellen.elementAt(i);
 				if (tm.isActiveInApplication() && !tm.isDeprecated()) {
@@ -296,8 +284,9 @@ public class DefaultCodeFactory implements CodeFactory {
 				System.out.println("directory " + path + dm.getBasePackageName().replace(".", "/") + " created");
 			} catch (Exception e) {
 			}
-			FileWriter fw = new FileWriter(path + dm.getBasePackageName().replace(".", "/") + "/"
-					+ dm.getApplicationName() + "Core.java", false);
+			FileWriter fw = new FileWriter(
+					path + dm.getBasePackageName().replace(".", "/") + "/" + dm.getApplicationName() + "Core.java",
+					false);
 			BufferedWriter writer = new BufferedWriter(fw);
 			for (int i = 0, len = zeilen.size(); i < len; i++) {
 				writer.write((String) zeilen.elementAt(i) + "\n");
@@ -313,8 +302,7 @@ public class DefaultCodeFactory implements CodeFactory {
 	}
 
 	/**
-	 * @changed OLI 26.03.2008 - Erweiterung um die Erzeugung einer
-	 *          Ressourcendatei zur Tabelle.
+	 * @changed OLI 26.03.2008 - Erweiterung um die Erzeugung einer Ressourcendatei zur Tabelle.
 	 * 
 	 */
 	protected void codeTable(TabellenModel tm, DiagrammModel dm, String out) throws Exception {
@@ -546,20 +534,20 @@ public class DefaultCodeFactory implements CodeFactory {
 			z = z.concat(" {");
 			zeilenSkeleton.addElement(z);
 			zeilenSkeleton.addElement("");
-			zeilenDBFactory.addElement("public class DBFactory" + tm.getName() + " extends " + "DefaultDBFactory<"
-					+ tm.getName() + "> {");
+			zeilenDBFactory.addElement(
+					"public class DBFactory" + tm.getName() + " extends " + "DefaultDBFactory<" + tm.getName() + "> {");
 		}
 		// Konstantensammlung f&uuml;r das Attributed-Interface herstellen.
-		// zeilen.addElement("    /* Einfacher Zugriff auf die Klassen-Daten. */");
-		// zeilen.addElement("    public static final Class CLASS = new " +
+		// zeilen.addElement(" /* Einfacher Zugriff auf die Klassen-Daten. */");
+		// zeilen.addElement(" public static final Class CLASS = new " +
 		// tm.getName()
 		// + (tm.isDynamicCode() ? "Udschebti" : "") + "().getClass();");
 		if (!tm.isDynamicCode()) {
 			zeilen.addElement("");
 			for (int i = 0, len = tm.getTabellenspaltenCount(); i < len; i++) {
 				TabellenspaltenModel tsm = tm.getTabellenspalteAt(i);
-				zeilen.addElement("    /** Bezeichner f&uuml;r den Zugriff auf die Eigenschaft " + tsm.getName()
-						+ ". */");
+				zeilen.addElement(
+						"    /** Bezeichner f&uuml;r den Zugriff auf die Eigenschaft " + tsm.getName() + ". */");
 				zeilen.addElement("    public static final int ID_" + tsm.getName().toUpperCase() + " = " + i + ";");
 			}
 			zeilen.addElement("");
@@ -578,9 +566,8 @@ public class DefaultCodeFactory implements CodeFactory {
 				if (deaktivierbar && tsm.getName().equalsIgnoreCase("geloescht")) {
 					s = s.concat("StatusColumn");
 				} else {
-					s = s.concat("new ColumnRecord(ID_" + tsm.getName().toUpperCase() + ", \"" + tm.getName()
-							+ "\", \"" + tsm.getName())
-							+ "\"";
+					s = s.concat("new ColumnRecord(ID_" + tsm.getName().toUpperCase() + ", \"" + tm.getName() + "\", \""
+							+ tsm.getName()) + "\"";
 					if (tsm.isPrimarykey()) {
 						s = s.concat(", true");
 					}
@@ -599,9 +586,8 @@ public class DefaultCodeFactory implements CodeFactory {
 			for (int i = 0, len = tm.getTabellenspaltenCount(); i < len; i++) {
 				TabellenspaltenModel tsm = tm.getTabellenspalteAt(i);
 				// if (!tsm.isPrimarykey()) {
-				tsms
-						.addElement(new TSMSortContainer(GetType(tsm.getDomain()) + " " + tsm.getName().toLowerCase(),
-								tsm));
+				tsms.addElement(
+						new TSMSortContainer(GetType(tsm.getDomain()) + " " + tsm.getName().toLowerCase(), tsm));
 				// }
 			}
 			// Attribute definieren.
@@ -614,8 +600,8 @@ public class DefaultCodeFactory implements CodeFactory {
 			}
 			zeilen.addElement("");
 		} else {
-			// zeilenSkeleton.addElement("    /** Einfacher Zugriff auf die Klassen-Daten. */");
-			// zeilenSkeleton.addElement("    public static final Class CLASS = new "
+			// zeilenSkeleton.addElement(" /** Einfacher Zugriff auf die Klassen-Daten. */");
+			// zeilenSkeleton.addElement(" public static final Class CLASS = new "
 			// + tm.getName() + "().getClass();");
 			if (cached) {
 				zeilenSkeleton.addElement("");
@@ -645,21 +631,21 @@ public class DefaultCodeFactory implements CodeFactory {
 			zeilen.addElement("    /**");
 			zeilen.addElement("     * Generiert eine Instanz der Klasse mit Defaultwerten.");
 			zeilen.addElement("     *");
-			zeilen.addElement("     * @param adf Die ArchimedesDescriptorFactory, aus der die "
-					+ "Instanz ihre Konfiguration ");
+			zeilen.addElement(
+					"     * @param adf Die ArchimedesDescriptorFactory, aus der die " + "Instanz ihre Konfiguration ");
 			zeilen.addElement("     *     beziehen soll.");
 			zeilen.addElement("     * @param tn Der Name der Tabelle, auf die sich die Klasse " + "beziehen soll.");
 			zeilen.addElement("     */");
-			zeilen.addElement("    protected " + tm.getName() + "Udschebti("
-					+ "ArchimedesDescriptorFactory adf, String tn) {");
+			zeilen.addElement(
+					"    protected " + tm.getName() + "Udschebti(" + "ArchimedesDescriptorFactory adf, String tn) {");
 			zeilen.addElement("        super(adf, tn);");
 			zeilen.addElement("    }");
 			zeilen.addElement("");
 			zeilen.addElement("    /**");
 			zeilen.addElement("     * Generiert eine Instanz der Klasse mit Defaultwerten.");
 			zeilen.addElement("     *");
-			zeilen.addElement("     * @param adf Die ArchimedesDescriptorFactory, aus der die "
-					+ "Instanz ihre Konfiguration ");
+			zeilen.addElement(
+					"     * @param adf Die ArchimedesDescriptorFactory, aus der die " + "Instanz ihre Konfiguration ");
 			zeilen.addElement("     *     beziehen soll.");
 			zeilen.addElement("     */");
 			zeilen.addElement("    public " + tm.getName() + "Udschebti(" + "ArchimedesDescriptorFactory adf) {");
@@ -675,22 +661,22 @@ public class DefaultCodeFactory implements CodeFactory {
 			zeilenSkeleton.addElement("    /**");
 			zeilenSkeleton.addElement("     * Generiert eine Instanz der Klasse mit " + "Defaultwerten.");
 			zeilenSkeleton.addElement("     *");
-			zeilenSkeleton.addElement("     * @param adf Die ArchimedesDescriptorFactory, "
-					+ "aus der die Instanz ihre Konfiguration ");
+			zeilenSkeleton.addElement(
+					"     * @param adf Die ArchimedesDescriptorFactory, " + "aus der die Instanz ihre Konfiguration ");
 			zeilenSkeleton.addElement("     *     beziehen soll.");
-			zeilenSkeleton.addElement("     * @param tn Der Name der Tabelle, auf die sich "
-					+ "die Klasse beziehen soll.");
+			zeilenSkeleton
+					.addElement("     * @param tn Der Name der Tabelle, auf die sich " + "die Klasse beziehen soll.");
 			zeilenSkeleton.addElement("     */");
-			zeilenSkeleton.addElement("    protected " + tm.getName() + "("
-					+ "ArchimedesDescriptorFactory adf, String tn) {");
+			zeilenSkeleton.addElement(
+					"    protected " + tm.getName() + "(" + "ArchimedesDescriptorFactory adf, String tn) {");
 			zeilenSkeleton.addElement("        super(adf, tn);");
 			zeilenSkeleton.addElement("    }");
 			zeilenSkeleton.addElement("");
 			zeilenSkeleton.addElement("    /**");
 			zeilenSkeleton.addElement("     * Generiert eine Instanz der Klasse mit " + "Defaultwerten.");
 			zeilenSkeleton.addElement("     *");
-			zeilenSkeleton.addElement("     * @param adf Die ArchimedesDescriptorFactory, "
-					+ "aus der die Instanz ihre Konfiguration ");
+			zeilenSkeleton.addElement(
+					"     * @param adf Die ArchimedesDescriptorFactory, " + "aus der die Instanz ihre Konfiguration ");
 			zeilenSkeleton.addElement("     *     beziehen soll.");
 			zeilenSkeleton.addElement("     */");
 			zeilenSkeleton.addElement("    public " + tm.getName() + "(" + "ArchimedesDescriptorFactory adf) {");
@@ -702,8 +688,8 @@ public class DefaultCodeFactory implements CodeFactory {
 			zeilenDBFactory.addElement("    /**");
 			zeilenDBFactory.addElement("     * Generiert eine Instanz der Klasse mit " + "Defaultwerten.");
 			zeilenDBFactory.addElement("     *");
-			zeilenDBFactory.addElement("     * @param adf Die ArchimedesDescriptorFactory, "
-					+ "aus der die Instanz ihre Konfiguration ");
+			zeilenDBFactory.addElement(
+					"     * @param adf Die ArchimedesDescriptorFactory, " + "aus der die Instanz ihre Konfiguration ");
 			zeilenDBFactory.addElement("     *     beziehen soll.");
 			zeilenDBFactory.addElement("     */");
 			zeilenDBFactory.addElement("    public DBFactory" + tm.getName() + "(ArchimedesDescriptorFactory adf) {");
@@ -720,14 +706,14 @@ public class DefaultCodeFactory implements CodeFactory {
 				TabellenModel tmr = tsm.getTabelle();
 				String tmn = tm.getName();
 				String tmnr = tmr.getName();
-				zeilenDBFactory.addElement("    public Vector<" + tm + "> read(String w, "
-						+ "Connection c, OrderByDescriptor o)");
+				zeilenDBFactory.addElement(
+						"    public Vector<" + tm + "> read(String w, " + "Connection c, OrderByDescriptor o)");
 				zeilenDBFactory.addElement("            throws SQLException {");
 				zeilenDBFactory.addElement("        return this.read(w, c);");
 				zeilenDBFactory.addElement("    }");
 				zeilenDBFactory.addElement("");
-				zeilenDBFactory.addElement("    public Vector<" + tmn + "> read(String w, "
-						+ "Connection c) throws SQLException {");
+				zeilenDBFactory.addElement(
+						"    public Vector<" + tmn + "> read(String w, " + "Connection c) throws SQLException {");
 				zeilenDBFactory.addElement("        " + tmn + " o = new " + tmn + "(this.adf);");
 				zeilenDBFactory.addElement("        " + tmnr + " r = new " + tmnr + "(this.adf);");
 				zeilenDBFactory.addElement("        Vector<" + tmn + "> v = new Vector<" + tmn + ">();");
@@ -735,13 +721,13 @@ public class DefaultCodeFactory implements CodeFactory {
 						+ "GetSelectionFieldCount(o.getPersistenceDescriptor());");
 				zeilenDBFactory.addElement("        int rfieldcount = DBFactoryUtil."
 						+ "GetSelectionFieldCount(r.getPersistenceDescriptor());");
-				zeilenDBFactory.addElement("        String select = DBFactoryUtil."
-						+ "GetSelectionFields(o.getPersistenceDescriptor());");
-				zeilenDBFactory.addElement("        select = select.concat(\", \").concat("
-						+ "DBFactoryUtil.GetSelectionFields(");
+				zeilenDBFactory.addElement(
+						"        String select = DBFactoryUtil." + "GetSelectionFields(o.getPersistenceDescriptor());");
+				zeilenDBFactory.addElement(
+						"        select = select.concat(\", \").concat(" + "DBFactoryUtil.GetSelectionFields(");
 				zeilenDBFactory.addElement("                r.getPersistenceDescriptor()));");
-				zeilenDBFactory.addElement("        select = \"select \".concat(select)." + "concat(\" from " + tmn
-						+ "\\n\"");
+				zeilenDBFactory
+						.addElement("        select = \"select \".concat(select)." + "concat(\" from " + tmn + "\\n\"");
 				zeilenDBFactory.addElement("                + \"left outer join " + tmnr + " on" + " "
 						+ tsm.getFullName() + "=" + tmn + "." + tm.getPrimaryKeyName() + "\\n\");");
 				zeilenDBFactory.addElement("        if ((w != null) && !w.equals(\"\")) {");
@@ -771,13 +757,13 @@ public class DefaultCodeFactory implements CodeFactory {
 				zeilenDBFactory.addElement("        return v;");
 				zeilenDBFactory.addElement("    }");
 				zeilenDBFactory.addElement("");
-				zeilenDBFactory.addElement("    public void write(" + tmn + " o, "
-						+ "Connection c) throws SQLException {");
+				zeilenDBFactory
+						.addElement("    public void write(" + tmn + " o, " + "Connection c) throws SQLException {");
 				zeilenDBFactory.addElement("        super.write(o, c);");
 				zeilenDBFactory.addElement("        DBExec.Update(c, \"delete from " + tmnr + "where " + tmn
 						+ "=\" + o.get" + tmn + "());");
-				zeilenDBFactory.addElement("        DBFactory" + tmnr + " dbfr = new " + "DBFactory" + tmnr
-						+ "(this.adf);");
+				zeilenDBFactory
+						.addElement("        DBFactory" + tmnr + " dbfr = new " + "DBFactory" + tmnr + "(this.adf);");
 				zeilenDBFactory.addElement("        for (int i = 0, len = o.get" + tmnr + "().size(); i < len; i++) {");
 				zeilenDBFactory.addElement("            " + tmnr + " r = (" + tmnr + ") o.get" + tmnr + "().get(i);");
 				zeilenDBFactory.addElement("            r.setADF(this.adf);");
@@ -831,18 +817,17 @@ public class DefaultCodeFactory implements CodeFactory {
 				zeilen.addElement("    }");
 				zeilen.addElement("");
 				zeilen.addElement("    /**");
-				zeilen.addElement("     * Setzt den &uuml;bergebenen Wert als neuen Wert "
-						+ "f&uuml;r die Eigenschaft " + n + ".");
+				zeilen.addElement("     * Setzt den &uuml;bergebenen Wert als neuen Wert " + "f&uuml;r die Eigenschaft "
+						+ n + ".");
 				zeilen.addElement("     *");
-				zeilen
-						.addElement("     * @param " + n.toLowerCase() + " Der neue Wert der " + "Eigenschaft " + n
-								+ ".");
+				zeilen.addElement(
+						"     * @param " + n.toLowerCase() + " Der neue Wert der " + "Eigenschaft " + n + ".");
 				zeilen.addElement("     */");
 				zeilen.addElement("    public void set" + n + "(" + t + " " + n.toLowerCase() + ") {");
 				if (IsReference(tsm.getDomain())) {
 					zeilen.addElement("        if (" + n.toLowerCase() + " == null) {");
-					zeilen.addElement("            this." + n.toLowerCase() + " = " + GetInitializer(tsm.getDomain())
-							+ ";");
+					zeilen.addElement(
+							"            this." + n.toLowerCase() + " = " + GetInitializer(tsm.getDomain()) + ";");
 					zeilen.addElement("        }");
 				}
 				zeilen.addElement("        this." + n.toLowerCase() + " = " + n.toLowerCase() + ";");
@@ -971,11 +956,8 @@ public class DefaultCodeFactory implements CodeFactory {
 				zeilen.addElement("        case ID_" + tsm.getName().toUpperCase() + ":");
 				String n = tsm.getName();
 				String t = GetType(tsm.getDomain());
-				String s = "this.set"
-						+ n
-						+ "("
-						+ (IsReference(tsm.getDomain()) ? "(" + t + ") value" : "((" + GetWrapper(t) + ") value)." + t
-								+ "Value()") + ")";
+				String s = "this.set" + n + "(" + (IsReference(tsm.getDomain()) ? "(" + t + ") value"
+						: "((" + GetWrapper(t) + ") value)." + t + "Value()") + ")";
 				zeilen.addElement("            " + s + ";");
 				zeilen.addElement("            return;");
 			}
@@ -1029,11 +1011,11 @@ public class DefaultCodeFactory implements CodeFactory {
 				TabellenspaltenModel tsm = tm.getTabellenspalteAt(i);
 				if (tsm.isEditormember()) {
 					String n = tsm.getName();
-					zeilen.addElement("        dedl.addElement(new DefaultEditorDescriptor("
-							+ tsm.getPanel().getPanelNumber() + ", this, ID_" + n.toUpperCase() + ", dlf, dcf, \""
-							+ tsm.getLabelText() + "\", '"
-							+ (tsm.getMnemonic().length() > 0 ? tsm.getMnemonic().charAt(0) : "\0") + "', null, \""
-							+ tsm.getToolTipText() + "\"));");
+					zeilen.addElement(
+							"        dedl.addElement(new DefaultEditorDescriptor(" + tsm.getPanel().getPanelNumber()
+									+ ", this, ID_" + n.toUpperCase() + ", dlf, dcf, \"" + tsm.getLabelText() + "\", '"
+									+ (tsm.getMnemonic().length() > 0 ? tsm.getMnemonic().charAt(0) : "\0")
+									+ "', null, \"" + tsm.getToolTipText() + "\"));");
 				}
 			}
 			zeilen.addElement("        return dedl;");
@@ -1045,8 +1027,8 @@ public class DefaultCodeFactory implements CodeFactory {
 			zeilen.addElement("");
 			zeilen.addElement("    public Object createObject(Object blueprint) throws " + "ClassCastException {");
 			zeilen.addElement("        if (!(blueprint instanceof " + tm.getName() + ")) {");
-			zeilen.addElement("            throw new ClassCastException(\"Instance of " + tm.getName()
-					+ " required!\");");
+			zeilen.addElement(
+					"            throw new ClassCastException(\"Instance of " + tm.getName() + " required!\");");
 			zeilen.addElement("        }");
 			zeilen.addElement("        " + tm.getName() + " newone = (" + tm.getName() + ") this.createObject();");
 			zeilen.addElement("        " + tm.getName() + " bp = (" + tm.getName() + ") blueprint;");
@@ -1095,8 +1077,8 @@ public class DefaultCodeFactory implements CodeFactory {
 				if (IsNumber(tsm.getDomain())) {
 					zeilen.addElement("        " + t + " " + sf + " = " + GetInitializerValue(tsm.getDomain()) + ";");
 					zeilen.addElement("        if (" + n.toLowerCase() + " != null) {");
-					zeilen.addElement("            " + sf + " = ((" + (t.equals("boolean") ? "Boolean" : "Number")
-							+ ")" + " " + n.toLowerCase() + ")." + t + "Value();");
+					zeilen.addElement("            " + sf + " = ((" + (t.equals("boolean") ? "Boolean" : "Number") + ")"
+							+ " " + n.toLowerCase() + ")." + t + "Value();");
 					zeilen.addElement("        }");
 					zeilen.addElement("        return " + sf + ";");
 				} else {
@@ -1111,12 +1093,11 @@ public class DefaultCodeFactory implements CodeFactory {
 				zeilen.addElement("    }");
 				zeilen.addElement("");
 				zeilen.addElement("    /**");
-				zeilen.addElement("     * Setzt den &uuml;bergebenen Wert als neuen Wert "
-						+ "f&uuml;r die Eigenschaft " + n + ".");
+				zeilen.addElement("     * Setzt den &uuml;bergebenen Wert als neuen Wert " + "f&uuml;r die Eigenschaft "
+						+ n + ".");
 				zeilen.addElement("     *");
-				zeilen
-						.addElement("     * @param " + n.toLowerCase() + " Der neue Wert der " + "Eigenschaft " + n
-								+ ".");
+				zeilen.addElement(
+						"     * @param " + n.toLowerCase() + " Der neue Wert der " + "Eigenschaft " + n + ".");
 				zeilen.addElement("     */");
 				zeilen.addElement("    public void set" + n + "(" + t + " " + n.toLowerCase() + ") {");
 				if (IsReference(tsm.getDomain()) && !t.equals("int")) {
@@ -1149,8 +1130,8 @@ public class DefaultCodeFactory implements CodeFactory {
 			zeilen.addElement("    /* Implementierung der abstrakten Methoden der Superklasse. " + "*/");
 			zeilen.addElement("");
 			zeilen.addElement("    public Object createObject() {");
-			zeilen.addElement("        return new " + tm.getName() + (tm.isDynamicCode() ? "Udschebti" : "")
-					+ "(this.adf);");
+			zeilen.addElement(
+					"        return new " + tm.getName() + (tm.isDynamicCode() ? "Udschebti" : "") + "(this.adf);");
 			zeilen.addElement("    }");
 			zeilen.addElement("");
 			if (tm.isDynamicCode()) {
@@ -1179,31 +1160,20 @@ public class DefaultCodeFactory implements CodeFactory {
 				zeilen.addElement("");
 			}
 			/*
-			 * SortedVector svi = new SortedVector(); if (tabbed) {
-			 * zeilen.addElement("");
-			 * zeilen.addElement("    /* Implementierung des Interfaces Tabbed. * /"
-			 * ); zeilen.addElement(""); int panel = 0; for (int i = 0, len =
-			 * tm.getTabellenspaltenCount(); i < len; i++) {
-			 * TabellenspaltenModel tsm = tm.getTabellenspalteAt(i); if
-			 * (!svi.contains(new Integer(tsm.getPanelNumber()))) {
-			 * svi.addElement(new Integer(tsm.getPanelNumber())); if (panel <
-			 * tsm.getPanelNumber()) { panel = tsm.getPanelNumber(); } } } for
-			 * (int i = 0, len = tm.getNReferenzModelCount(); i < len; i++) {
-			 * NReferenzModel nrm = tm.getNReferenzModelAt(i); panel++; if
-			 * (!svi.contains(new Integer(panel))) { svi.addElement(new
-			 * Integer(panel)); } }zeilen.addElement(
-			 * "    public TabbedPaneFactory getTabbedPaneFactory() {"); String
-			 * std =
-			 * "        return new DefaultTabbedPaneFactory(new TabDescriptor[] "
-			 * + "{"; for (int i = 0, len = svi.size(); i < len; i++) { int id =
-			 * ((Integer) svi.elementAt(i)).intValue() + 1; if (i > 0) { std +=
-			 * ", "; } String t = tm.getTabTitle(id); String ttt =
-			 * tm.getTabToolTipText(id); std += "new DefaultTabDescriptor(\"" +
-			 * (t != null ? t : "" + id + ".Reiter" )+ "\", '" + (t != null ?
-			 * tm.getTabMnemonic(id) : "" + id) + "', " + (ttt != null ? "\"" +
-			 * ttt + "\"" : "null") + ")"; } std += "});";
-			 * zeilen.addElement(std); zeilen.addElement("    }");
-			 * zeilen.addElement(""); }
+			 * SortedVector svi = new SortedVector(); if (tabbed) { zeilen.addElement("");
+			 * zeilen.addElement("    /* Implementierung des Interfaces Tabbed. * /" ); zeilen.addElement(""); int panel
+			 * = 0; for (int i = 0, len = tm.getTabellenspaltenCount(); i < len; i++) { TabellenspaltenModel tsm =
+			 * tm.getTabellenspalteAt(i); if (!svi.contains(new Integer(tsm.getPanelNumber()))) { svi.addElement(new
+			 * Integer(tsm.getPanelNumber())); if (panel < tsm.getPanelNumber()) { panel = tsm.getPanelNumber(); } } }
+			 * for (int i = 0, len = tm.getNReferenzModelCount(); i < len; i++) { NReferenzModel nrm =
+			 * tm.getNReferenzModelAt(i); panel++; if (!svi.contains(new Integer(panel))) { svi.addElement(new
+			 * Integer(panel)); } }zeilen.addElement( "    public TabbedPaneFactory getTabbedPaneFactory() {"); String
+			 * std = "        return new DefaultTabbedPaneFactory(new TabDescriptor[] " + "{"; for (int i = 0, len =
+			 * svi.size(); i < len; i++) { int id = ((Integer) svi.elementAt(i)).intValue() + 1; if (i > 0) { std +=
+			 * ", "; } String t = tm.getTabTitle(id); String ttt = tm.getTabToolTipText(id); std +=
+			 * "new DefaultTabDescriptor(\"" + (t != null ? t : "" + id + ".Reiter" )+ "\", '" + (t != null ?
+			 * tm.getTabMnemonic(id) : "" + id) + "', " + (ttt != null ? "\"" + ttt + "\"" : "null") + ")"; } std +=
+			 * "});"; zeilen.addElement(std); zeilen.addElement("    }"); zeilen.addElement(""); }
 			 */
 		}
 		zeilen.addElement("}");
@@ -1241,13 +1211,13 @@ public class DefaultCodeFactory implements CodeFactory {
 				zeilenSkeleton.addElement("");
 				zeilenSkeleton.addElement("    /* Implementierung des Interfaces " + "EditorDjinnMaster. */");
 				zeilenSkeleton.addElement("");
-				zeilenSkeleton.addElement("    public boolean doAfterCleanUp(Hashtable<String, "
-						+ "java.awt.Component> comps) {");
+				zeilenSkeleton.addElement(
+						"    public boolean doAfterCleanUp(Hashtable<String, " + "java.awt.Component> comps) {");
 				zeilenSkeleton.addElement("        return true;");
 				zeilenSkeleton.addElement("    }");
 				zeilenSkeleton.addElement("");
-				zeilenSkeleton.addElement("    public void doAfterDjinnSummoned(Hashtable"
-						+ "<String, java.awt.Component> comps,");
+				zeilenSkeleton.addElement(
+						"    public void doAfterDjinnSummoned(Hashtable" + "<String, java.awt.Component> comps,");
 				zeilenSkeleton.addElement("            EditorDjinnMode mode) {");
 				zeilenSkeleton.addElement("    }");
 				zeilenSkeleton.addElement("");
@@ -1256,8 +1226,8 @@ public class DefaultCodeFactory implements CodeFactory {
 				zeilenSkeleton.addElement("        return true;");
 				zeilenSkeleton.addElement("    }");
 				zeilenSkeleton.addElement("");
-				zeilenSkeleton.addElement("    public boolean doBeforeDelete(Hashtable<String, "
-						+ "java.awt.Component> comps) {");
+				zeilenSkeleton.addElement(
+						"    public boolean doBeforeDelete(Hashtable<String, " + "java.awt.Component> comps) {");
 				zeilenSkeleton.addElement("        return true;");
 				zeilenSkeleton.addElement("    }");
 				zeilenSkeleton.addElement("");
@@ -1287,8 +1257,8 @@ public class DefaultCodeFactory implements CodeFactory {
 					String tmnr = c.getTable().getName();
 					String tmn = tm.getName();
 					zeilenSkeleton.addElement("        case " + nr.getId() + ":");
-					zeilenSkeleton.addElement("            " + tmnr + " r" + nr.getId() + " = new " + tmnr
-							+ "(this.adf);");
+					zeilenSkeleton
+							.addElement("            " + tmnr + " r" + nr.getId() + " = new " + tmnr + "(this.adf);");
 					zeilenSkeleton.addElement("            r" + nr.getId() + ".set" + tmn + "(this.get" + tmn + "());");
 					zeilenSkeleton.addElement("            return r" + nr.getId() + ";");
 				}
@@ -1312,11 +1282,9 @@ public class DefaultCodeFactory implements CodeFactory {
 			zeilenSkeleton.addElement("}");
 		}
 		/*
-		 * // und jetzt wird's geschrieben ... System.out.println("writing " +
-		 * out + tm.getName() + ".java"); FileWriter fw = new FileWriter(out +
-		 * tm.getName() + ".java", false); BufferedWriter writer = new
-		 * BufferedWriter(fw); for (int i = 0, len = zeilen.size(); i < len;
-		 * i++) { writer.write((String) zeilen.elementAt(i) + "\n"); }
+		 * // und jetzt wird's geschrieben ... System.out.println("writing " + out + tm.getName() + ".java"); FileWriter
+		 * fw = new FileWriter(out + tm.getName() + ".java", false); BufferedWriter writer = new BufferedWriter(fw); for
+		 * (int i = 0, len = zeilen.size(); i < len; i++) { writer.write((String) zeilen.elementAt(i) + "\n"); }
 		 * writer.flush(); writer.close(); fw.close();
 		 */
 		// Importklauseln eintragen.
@@ -1423,53 +1391,38 @@ public class DefaultCodeFactory implements CodeFactory {
 	/**
 	 * Generiert aus dem Datentypen der Dom&auml;ne einen Java-Datentyp.
 	 * 
-	 * @param d
-	 *            Das DomainModel zu dem der Java-Datentyp generiert werden
-	 *            soll.
-	 * @return Der Name des Java-Datentypen bzw. 'UNKNOWN', wenn kein Datentyp
-	 *         zur Domain gebildet werden kann.
+	 * @param d Das DomainModel zu dem der Java-Datentyp generiert werden soll.
+	 * @return Der Name des Java-Datentypen bzw. 'UNKNOWN', wenn kein Datentyp zur Domain gebildet werden kann.
 	 * 
-	 * @changed OLI 09.09.2009 - Umstellung auf Nutzung der entsprechenden
-	 *          gengen-Methode.
-	 * @changed OLI 05.10.2009 - Einbau einer M&ouml;glichkeit den Packagenamen
-	 *          f&uuml;r die Zeitstempelklassen &uuml;ber die Property
-	 *          <I>archimedes.scheme.DefaultCodeFactory.ts.package</I> zu
-	 *          konfigurieren. Die Voreinstellung (bei undefinierter Property)
-	 *          ist "corentx.dates".
+	 * @changed OLI 09.09.2009 - Umstellung auf Nutzung der entsprechenden gengen-Methode.
+	 * @changed OLI 05.10.2009 - Einbau einer M&ouml;glichkeit den Packagenamen f&uuml;r die Zeitstempelklassen
+	 *          &uuml;ber die Property <I>archimedes.scheme.DefaultCodeFactory.ts.package</I> zu konfigurieren. Die
+	 *          Voreinstellung (bei undefinierter Property) ist "corentx.dates".
 	 */
 	public static String GetType(DomainModel d) {
-		return gengen.util.Converter.toJavaType(d.getDataType(), d.getName(), Utl.GetProperty(
-				"archimedes.scheme.DefaultCodeFactory.ts.package", "corentx.dates"));
+		return gengen.util.Converter.toJavaType(d.getDataType(), d.getName(),
+				Utl.GetProperty("archimedes.scheme.DefaultCodeFactory.ts.package", "corentx.dates"));
 		/*
-		 * int type = d.getDatatype(); if
-		 * (d.getName().equalsIgnoreCase("Boolean")) { type = Types.BOOLEAN; }
-		 * if (d.getName().equalsIgnoreCase("PDate") ||
-		 * d.getName().equalsIgnoreCase("PTime") ||
-		 * d.getName().equalsIgnoreCase("PTimestamp") ||
-		 * d.getName().equalsIgnoreCase("LongPTimestamp")) { return
-		 * "corent.dates." + d.getName(); } String s = "UNKNOWN"; switch (type)
-		 * { case Types.BIGINT: s = "long"; break; case Types.BIT: case
-		 * Types.BOOLEAN: s = "boolean"; break; case Types.BINARY: case
-		 * Types.LONGVARBINARY: case Types.VARBINARY: s = "byte[]"; break; case
-		 * Types.CHAR: case Types.LONGVARCHAR: case Types.VARCHAR: s = "String";
-		 * break; case Types.DATE: s = "java.sql.Date"; break; case
-		 * Types.DECIMAL: case Types.DOUBLE: case Types.FLOAT: case
-		 * Types.NUMERIC: s = "double"; break; case Types.INTEGER: case
-		 * Types.SMALLINT: case Types.TINYINT: s = "int"; break; case
-		 * Types.REAL: s = "float"; break; case Types.TIME: s = "java.sql.Time";
-		 * break; case Types.TIMESTAMP: s = "java.sql.Timestamp"; break; }
-		 * return s;
+		 * int type = d.getDatatype(); if (d.getName().equalsIgnoreCase("Boolean")) { type = Types.BOOLEAN; } if
+		 * (d.getName().equalsIgnoreCase("PDate") || d.getName().equalsIgnoreCase("PTime") ||
+		 * d.getName().equalsIgnoreCase("PTimestamp") || d.getName().equalsIgnoreCase("LongPTimestamp")) { return
+		 * "corent.dates." + d.getName(); } String s = "UNKNOWN"; switch (type) { case Types.BIGINT: s = "long"; break;
+		 * case Types.BIT: case Types.BOOLEAN: s = "boolean"; break; case Types.BINARY: case Types.LONGVARBINARY: case
+		 * Types.VARBINARY: s = "byte[]"; break; case Types.CHAR: case Types.LONGVARCHAR: case Types.VARCHAR: s =
+		 * "String"; break; case Types.DATE: s = "java.sql.Date"; break; case Types.DECIMAL: case Types.DOUBLE: case
+		 * Types.FLOAT: case Types.NUMERIC: s = "double"; break; case Types.INTEGER: case Types.SMALLINT: case
+		 * Types.TINYINT: s = "int"; break; case Types.REAL: s = "float"; break; case Types.TIME: s = "java.sql.Time";
+		 * break; case Types.TIMESTAMP: s = "java.sql.Timestamp"; break; } return s;
 		 */
 	}
 
 	/**
-	 * Liefert einen Standardwert im Stringformat f&uuml;r die Initialisierung
-	 * eines zum DomainModel passenden Java-Datentypen.
+	 * Liefert einen Standardwert im Stringformat f&uuml;r die Initialisierung eines zum DomainModel passenden
+	 * Java-Datentypen.
 	 * 
-	 * @param d
-	 *            Das DomainModel, zu dem der Initializer generiert werden soll.
-	 * @return Der Intialwert im Stringformat des Java-Datentypen bzw.
-	 *         'UNKNOWN', wenn kein Datentyp zur Domain gefunden werden kann.
+	 * @param d Das DomainModel, zu dem der Initializer generiert werden soll.
+	 * @return Der Intialwert im Stringformat des Java-Datentypen bzw. 'UNKNOWN', wenn kein Datentyp zur Domain gefunden
+	 *         werden kann.
 	 */
 	public static String GetInitializer(DomainModel d) {
 		int type = d.getDataType();
@@ -1532,13 +1485,11 @@ public class DefaultCodeFactory implements CodeFactory {
 	}
 
 	/**
-	 * Liefert einen Standardwert f&uuml;r die Initialisierung eines zum
-	 * DomainModel passenden Java-Datentypen.
+	 * Liefert einen Standardwert f&uuml;r die Initialisierung eines zum DomainModel passenden Java-Datentypen.
 	 * 
-	 * @param d
-	 *            Das DomainModel, zu dem der Initializer generiert werden soll.
-	 * @return Der Intialwert des Java-Datentypen bzw. <TT>null</TT>, wenn kein
-	 *         Datentyp zur Domain gefunden werden kann.
+	 * @param d Das DomainModel, zu dem der Initializer generiert werden soll.
+	 * @return Der Intialwert des Java-Datentypen bzw. <TT>null</TT>, wenn kein Datentyp zur Domain gefunden werden
+	 *         kann.
 	 */
 	public static Object GetInitializerValue(DomainModel d) {
 		int type = d.getDataType();
@@ -1603,11 +1554,9 @@ public class DefaultCodeFactory implements CodeFactory {
 	/**
 	 * Ermittelt die Wrapper-Klasse zu einem elementaren Java-Datentyp.
 	 * 
-	 * @param type
-	 *            Der Name des elementaren Java-Datentyps.
-	 * @return Der Name der zum elementaren Java-Datentyp bzw. der
-	 *         &uuml;bergebene Typname, falls zu dem Typnamen kein Wrapper
-	 *         gefunden werden kann.
+	 * @param type Der Name des elementaren Java-Datentyps.
+	 * @return Der Name der zum elementaren Java-Datentyp bzw. der &uuml;bergebene Typname, falls zu dem Typnamen kein
+	 *         Wrapper gefunden werden kann.
 	 */
 	public static String GetWrapper(String type) {
 		if (type.equals("boolean")) {
@@ -1631,13 +1580,10 @@ public class DefaultCodeFactory implements CodeFactory {
 	}
 
 	/**
-	 * Pr&uuml;ft, ob der der &uuml;bergebenen Domain zugeordnete Java-Datentyp
-	 * ein Referenztyp ist.
+	 * Pr&uuml;ft, ob der der &uuml;bergebenen Domain zugeordnete Java-Datentyp ein Referenztyp ist.
 	 * 
-	 * @param d
-	 *            Die zu &uuml;berpr&uuml;fende Domain.
-	 * @return <TT>true</TT>, falls der der Domain zugeordnete Java-Datentyp ein
-	 *         Referenztyp ist.
+	 * @param d Die zu &uuml;berpr&uuml;fende Domain.
+	 * @return <TT>true</TT>, falls der der Domain zugeordnete Java-Datentyp ein Referenztyp ist.
 	 */
 	public static boolean IsReference(DomainModel d) {
 		boolean erg = false;
@@ -1663,13 +1609,10 @@ public class DefaultCodeFactory implements CodeFactory {
 	}
 
 	/**
-	 * Pr&uuml;ft, ob der der &uuml;bergebenen Domain zugeordnete Java-Datentyp
-	 * ein Zahlentyp ist.
+	 * Pr&uuml;ft, ob der der &uuml;bergebenen Domain zugeordnete Java-Datentyp ein Zahlentyp ist.
 	 * 
-	 * @param d
-	 *            Die zu &uuml;berpr&uuml;fende Domain.
-	 * @return <TT>true</TT>, falls der der Domain zugeordnete Java-Datentyp ein
-	 *         Referenztyp ist.
+	 * @param d Die zu &uuml;berpr&uuml;fende Domain.
+	 * @return <TT>true</TT>, falls der der Domain zugeordnete Java-Datentyp ein Referenztyp ist.
 	 */
 	public static boolean IsNumber(DomainModel d) {
 		if ((d.getName().equalsIgnoreCase("PDate")) || (d.getName().equalsIgnoreCase("PTime"))
@@ -1748,13 +1691,9 @@ public class DefaultCodeFactory implements CodeFactory {
 	/**
 	 * Schreibt den &uuml;bergebenen Vector in eine Ressourcendatei.
 	 * 
-	 * @param fn
-	 *            Der Name, unter dem die Datei abgelegt werden soll.
-	 * @param res
-	 *            Der Vector mit den Eintr&auml;gen f&uuml;r die
-	 *            Ressourcendatei.
-	 * @throws IOException
-	 *             falls beim Schreiben der Datei ein Fehler auftritt.
+	 * @param fn  Der Name, unter dem die Datei abgelegt werden soll.
+	 * @param res Der Vector mit den Eintr&auml;gen f&uuml;r die Ressourcendatei.
+	 * @throws IOException falls beim Schreiben der Datei ein Fehler auftritt.
 	 * 
 	 * @changed OLI 28.03.2008 - Hinzugef&uuml;gt.
 	 * 
@@ -1772,17 +1711,11 @@ public class DefaultCodeFactory implements CodeFactory {
 	}
 
 	/**
-	 * Generiert alle notwendigen (Standard-)Ressourcen f&uuml;r die angegebene
-	 * Tabelle.
+	 * Generiert alle notwendigen (Standard-)Ressourcen f&uuml;r die angegebene Tabelle.
 	 * 
-	 * @param res
-	 *            Der Vector, an den die erzeugten Ressourcen angeh&auml;ngt
-	 *            werden sollen.
-	 * @param classname
-	 *            Der Name, den die Klasse in der Applikation haben wird.
-	 * @param tm
-	 *            Das TabellenModel, zu dem die Ressourcen generiert werden
-	 *            sollen.
+	 * @param res       Der Vector, an den die erzeugten Ressourcen angeh&auml;ngt werden sollen.
+	 * @param classname Der Name, den die Klasse in der Applikation haben wird.
+	 * @param tm        Das TabellenModel, zu dem die Ressourcen generiert werden sollen.
 	 * 
 	 * @changed OLI 28.03.2008 - Hinzugef&uuml;gt.
 	 * 
@@ -1792,17 +1725,12 @@ public class DefaultCodeFactory implements CodeFactory {
 		String prefix = null;
 		TabellenspaltenModel tsm = null;
 		Vector v = null;
-		res.addElement("archimedes.app.ArchimedesComponentFactory.mls.dialog.selection.title."
-				+ classname
-				+ "="
+		res.addElement("archimedes.app.ArchimedesComponentFactory.mls.dialog.selection.title." + classname + "="
 				+ System.getProperty("archimedes.scheme.DefaultCodeFactory." + "selection.title", "Auswahl $TABLENAME")
 						.replace("$TABLENAME", tm.getName()));
-		res
-				.addElement("corent.djinn.InternalFrameEditorDjinn."
-						+ classname
-						+ ".title="
-						+ System.getProperty("archimedes.scheme.DefaultCodeFactory.edit.dialog.title",
-								"&Auml;ndern $TABLENAME").replace("$TABLENAME", tm.getName()));
+		res.addElement("corent.djinn.InternalFrameEditorDjinn." + classname + ".title="
+				+ System.getProperty("archimedes.scheme.DefaultCodeFactory.edit.dialog.title", "&Auml;ndern $TABLENAME")
+						.replace("$TABLENAME", tm.getName()));
 		res.addElement("corent.djinn.InternalFrameSelectionEditorDjinnDBF." + classname + ".title=Auswahl&nbsp;"
 				+ tm.getName());
 		res.addElement("corent.djinn.DefaultEditorDjinnPanel.information.fields.text." + classname
@@ -1826,17 +1754,17 @@ public class DefaultCodeFactory implements CodeFactory {
 				prefix = "ComboBox";
 			}
 			if (tsm.isEditormember()) {
-				res.addElement("corent.djinn.DefaultEditorDjinnPanel.information.fields.name.for." + tsm.getName()
-						+ "." + classname + "=" + StrUtil.ToHTML(tsm.getLabelText()));
-				res.addElement(classname /* + "." */+ prefix + tsm.getName() + ".label.text="
+				res.addElement("corent.djinn.DefaultEditorDjinnPanel.information.fields.name.for." + tsm.getName() + "."
+						+ classname + "=" + StrUtil.ToHTML(tsm.getLabelText()));
+				res.addElement(classname /* + "." */ + prefix + tsm.getName() + ".label.text="
 						+ StrUtil.ToHTML(tsm.getLabelText()));
-				res.addElement(classname /* + "." */+ prefix + tsm.getName() + ".label.mnemonic="
+				res.addElement(classname /* + "." */ + prefix + tsm.getName() + ".label.mnemonic="
 						+ StrUtil.ToHTML(tsm.getMnemonic()));
-				res.addElement(classname /* + "." */+ prefix + tsm.getName() + ".label.tooltiptext="
+				res.addElement(classname /* + "." */ + prefix + tsm.getName() + ".label.tooltiptext="
 						+ StrUtil.ToHTML(tsm.getToolTipText()));
 			} else {
-				res.addElement("corent.djinn.DefaultEditorDjinnPanel.information.fields.name.for." + tsm.getName()
-						+ "." + classname + "=" + tsm.getName());
+				res.addElement("corent.djinn.DefaultEditorDjinnPanel.information.fields.name.for." + tsm.getName() + "."
+						+ classname + "=" + tsm.getName());
 			}
 		}
 	}

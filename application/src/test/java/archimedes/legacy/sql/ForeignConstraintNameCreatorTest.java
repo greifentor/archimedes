@@ -16,8 +16,8 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 
-import archimedes.model.ColumnModel;
-import archimedes.model.TableModel;
+import archimedes.legacy.model.ColumnModel;
+import archimedes.legacy.model.TableModel;
 
 /**
  * Tests of the class <CODE>ForeignConstraintNameCreator</CODE>.

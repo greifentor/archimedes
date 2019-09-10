@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 
-import archimedes.model.DataModel;
+import archimedes.legacy.model.DataModel;
 import corent.dates.PDate;
 
 /**

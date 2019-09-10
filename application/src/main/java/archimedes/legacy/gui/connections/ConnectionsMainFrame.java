@@ -38,7 +38,7 @@ import javax.swing.border.EmptyBorder;
 
 import org.apache.log4j.Logger;
 
-import archimedes.connections.DatabaseConnection;
+import archimedes.legacy.connections.DatabaseConnection;
 import archimedes.legacy.model.DiagrammModel;
 import baccara.gui.GUIBundle;
 import baccara.gui.generics.EditorFrameEvent;

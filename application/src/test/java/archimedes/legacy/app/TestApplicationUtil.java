@@ -21,7 +21,7 @@ import java.util.Properties;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
-import archimedes.model.SimpleIndexMetaData;
+import archimedes.legacy.model.SimpleIndexMetaData;
 
 /**
  * Testf&auml;lle f&uuml;r die ApplicationUtil-Klasse.
