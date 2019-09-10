@@ -157,11 +157,6 @@
 			<version>1.46.1</version>
 		</dependency>
 		<dependency>
-			<groupId>de.ollie</groupId>
-			<artifactId>gengen</artifactId>
-			<version>1.12.2</version>
-		</dependency>
-		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
 			<scope>test</scope>
