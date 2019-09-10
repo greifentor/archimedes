@@ -46,7 +46,8 @@ import gengen.IndividualPreferences;
 public class CodeGeneratorListConfigurationDialog extends JDialogWithInifile implements ActionListener {
 
 	public enum ClosingState {
-		CANCEL, GENERATE
+		CANCEL, //
+		GENERATE
 	};
 
 	private IndividualPreferences ip = null;

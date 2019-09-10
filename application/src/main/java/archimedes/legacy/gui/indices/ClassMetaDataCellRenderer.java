@@ -9,13 +9,13 @@
 
 package archimedes.legacy.gui.indices;
 
-import gengen.metadata.ClassMetaData;
-
 import java.awt.Component;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JList;
+
+import gengen.metadata.ClassMetaData;
 
 /**
  * Ein Renderer f&uuml;r die Anzeige von ClassMetaData-Models in einer ComboBox.

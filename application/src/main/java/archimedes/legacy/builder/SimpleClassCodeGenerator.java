@@ -1,4 +1,6 @@
 /*
+ * SHOULD BE REMOVED
+ *
  * SimpleClassGenerator.java
  *
  * 10.09.2009
