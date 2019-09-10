@@ -3,7 +3,7 @@
  *
  * 25.05.2016
  *
- * (c) by HealthCarion
+ * (c) by HO.Lieshoff
  *
  */
 
@@ -18,11 +18,10 @@ import java.sql.Types;
 import org.junit.Before;
 import org.junit.Test;
 
-import archimedes.acf.util.ParameterUtil;
-import archimedes.model.ColumnModel;
-import archimedes.model.DomainModel;
-import archimedes.model.OptionModel;
-import archimedes.scheme.Option;
+import archimedes.legacy.acf.util.ParameterUtil;
+import archimedes.legacy.model.ColumnModel;
+import archimedes.legacy.model.DomainModel;
+import archimedes.legacy.model.OptionModel;
 
 /**
  * Tests of the class <CODE>Tabelle</CODE>.

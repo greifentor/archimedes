@@ -20,7 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import archimedes.legacy.Utils;
-import archimedes.model.IndexMetaData;
+import archimedes.legacy.model.IndexMetaData;
 import corent.files.StructuredTextFile;
 
 /**

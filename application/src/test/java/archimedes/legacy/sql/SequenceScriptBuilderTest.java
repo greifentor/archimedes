@@ -22,10 +22,10 @@ import org.junit.Test;
 
 import archimedes.legacy.metadata.SequenceMetaData;
 import archimedes.legacy.model.DiagrammModel;
+import archimedes.legacy.model.SequenceModel;
 import archimedes.legacy.scheme.Sequence;
 import archimedes.legacy.script.sql.SQLScript;
 import archimedes.legacy.sql.factories.PostgreSQLScriptFactory;
-import archimedes.model.SequenceModel;
 
 /**
  * Tests of the class <CODE>SequenceScriptBuilder</CODE>.

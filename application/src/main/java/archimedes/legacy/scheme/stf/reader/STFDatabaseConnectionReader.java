@@ -11,7 +11,7 @@ package archimedes.legacy.scheme.stf.reader;
 
 import org.apache.log4j.Logger;
 
-import archimedes.connections.DatabaseConnection;
+import archimedes.legacy.connections.DatabaseConnection;
 import archimedes.legacy.model.DiagrammModel;
 import archimedes.legacy.scheme.stf.handler.STFDatabaseConnectionHandler;
 import corent.db.DBExecMode;

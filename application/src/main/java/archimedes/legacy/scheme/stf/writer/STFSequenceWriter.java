@@ -12,8 +12,8 @@ package archimedes.legacy.scheme.stf.writer;
 import org.apache.log4j.Logger;
 
 import archimedes.legacy.model.DiagramSaveMode;
+import archimedes.legacy.model.SequenceModel;
 import archimedes.legacy.scheme.stf.handler.STFSequenceHandler;
-import archimedes.model.SequenceModel;
 import corent.files.StructuredTextFile;
 
 /**

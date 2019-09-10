@@ -17,9 +17,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import archimedes.legacy.Utils;
+import archimedes.legacy.model.IndexMetaData;
+import archimedes.legacy.model.SimpleIndexMetaData;
 import archimedes.legacy.script.sql.SQLScript;
-import archimedes.model.IndexMetaData;
-import archimedes.model.SimpleIndexMetaData;
 
 /**
  * Tests zur Klasse <CODE>ComplexIndexSQLScriptAppender</CODE>.

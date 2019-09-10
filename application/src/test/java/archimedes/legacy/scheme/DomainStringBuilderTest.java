@@ -16,7 +16,7 @@ import java.sql.Types;
 import org.junit.Before;
 import org.junit.Test;
 
-import archimedes.model.DomainModel;
+import archimedes.legacy.model.DomainModel;
 
 /**
  * Tests zur Klasse <TT>DomainStringBuilder</TT>.

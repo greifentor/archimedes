@@ -9,7 +9,7 @@
 
 package archimedes.legacy.scheme;
 
-import archimedes.model.DomainModel;
+import archimedes.legacy.model.DomainModel;
 import corent.db.DBExecMode;
 import corent.db.DBType;
 

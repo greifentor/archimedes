@@ -11,7 +11,7 @@ package archimedes.legacy.scheme.stf.writer;
 
 import org.apache.log4j.Logger;
 
-import archimedes.connections.DatabaseConnection;
+import archimedes.legacy.connections.DatabaseConnection;
 import archimedes.legacy.model.DiagramSaveMode;
 import archimedes.legacy.scheme.stf.handler.STFDatabaseConnectionHandler;
 import corent.files.StructuredTextFile;

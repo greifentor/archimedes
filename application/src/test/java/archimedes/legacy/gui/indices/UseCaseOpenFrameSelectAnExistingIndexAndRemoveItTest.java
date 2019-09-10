@@ -20,8 +20,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import archimedes.legacy.Utils;
+import archimedes.legacy.model.IndexMetaData;
 import archimedes.legacy.scheme.Diagramm;
-import archimedes.model.IndexMetaData;
 
 /**
  * Dieser Test &ouml;ffnet das Pflegefenster f&uuml;r komplexe Indices,

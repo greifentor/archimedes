@@ -43,10 +43,10 @@ import javax.swing.table.DefaultTableModel;
 
 import org.apache.log4j.Logger;
 
+import archimedes.legacy.model.ChangeObserver;
+import archimedes.legacy.model.ComplexIndexListProvider;
+import archimedes.legacy.model.IndexMetaData;
 import archimedes.legacy.scheme.DefaultIndexMetaData;
-import archimedes.model.ChangeObserver;
-import archimedes.model.ComplexIndexListProvider;
-import archimedes.model.IndexMetaData;
 import corent.files.Inifile;
 import corent.gui.COButton;
 import corent.gui.COLabel;

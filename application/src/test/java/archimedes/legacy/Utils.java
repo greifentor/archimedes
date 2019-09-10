@@ -9,21 +9,19 @@
 
 package archimedes.legacy;
 
-import gengen.metadata.AttributeMetaData;
-import gengen.metadata.ClassMetaData;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
 import org.easymock.EasyMock;
 
+import archimedes.legacy.model.IndexMetaData;
 import archimedes.legacy.scheme.DefaultIndexMetaData;
-import archimedes.model.IndexMetaData;
+import gengen.metadata.AttributeMetaData;
+import gengen.metadata.ClassMetaData;
 
 /**
- * Eine Sammlung von Utility-Methoden, die in mehreren Packages Anwendung
- * finden.
+ * Eine Sammlung von Utility-Methoden, die in mehreren Packages Anwendung finden.
  * 
  * @author ollie
  * 
@@ -35,9 +33,7 @@ public class Utils {
 	/**
 	 * Erzeugt ein AttributeMetaDataMock mit dem angegebenen Namen.
 	 * 
-	 * @param name
-	 *            Der Name der Tabellespalte zu der das Mock erzeugt werden
-	 *            soll.
+	 * @param name Der Name der Tabellespalte zu der das Mock erzeugt werden soll.
 	 * @return Ein Mock-Objekt mit dem angegebenen Namen.
 	 * 
 	 * @changed OLI 19.12.2011 - Hinzugef&uuml;gt.
@@ -52,8 +48,7 @@ public class Utils {
 	/**
 	 * Erzeugt ein ClassMetaDataMock mit dem angegebenen Namen.
 	 * 
-	 * @param name
-	 *            Der Name der Tabelle zu der das Mock erzeugt werden soll.
+	 * @param name Der Name der Tabelle zu der das Mock erzeugt werden soll.
 	 * @return Ein Mock-Objekt mit dem angegebenen Namen.
 	 * 
 	 * @changed OLI 19.12.2011 - Hinzugef&uuml;gt.
@@ -63,16 +58,11 @@ public class Utils {
 	}
 
 	/**
-	 * Erzeugt ein ClassMetaDataMock mit dem angegebenen Namen und den
-	 * angegebenen Attributen.
+	 * Erzeugt ein ClassMetaDataMock mit dem angegebenen Namen und den angegebenen Attributen.
 	 * 
-	 * @param name
-	 *            Der Name der Tabelle zu der das Mock erzeugt werden soll.
-	 * @param attributes
-	 *            Die Attribute, die an die Tabelle angeh&auml;ngt werden
-	 *            sollen.
-	 * @return Ein Mock-Objekt mit dem angegebenen Namen und den Attributen der
-	 *         Liste.
+	 * @param name       Der Name der Tabelle zu der das Mock erzeugt werden soll.
+	 * @param attributes Die Attribute, die an die Tabelle angeh&auml;ngt werden sollen.
+	 * @return Ein Mock-Objekt mit dem angegebenen Namen und den Attributen der Liste.
 	 * 
 	 * @changed OLI 19.12.2011 - Hinzugef&uuml;gt.
 	 */
@@ -81,16 +71,11 @@ public class Utils {
 	}
 
 	/**
-	 * Erzeugt ein ClassMetaDataMock mit dem angegebenen Namen und den
-	 * angegebenen Attributen.
+	 * Erzeugt ein ClassMetaDataMock mit dem angegebenen Namen und den angegebenen Attributen.
 	 * 
-	 * @param name
-	 *            Der Name der Tabelle zu der das Mock erzeugt werden soll.
-	 * @param attributes
-	 *            Die Attribute, die an die Tabelle angeh&auml;ngt werden
-	 *            sollen.
-	 * @return Ein Mock-Objekt mit dem angegebenen Namen und den Attributen der
-	 *         Liste.
+	 * @param name       Der Name der Tabelle zu der das Mock erzeugt werden soll.
+	 * @param attributes Die Attribute, die an die Tabelle angeh&auml;ngt werden sollen.
+	 * @return Ein Mock-Objekt mit dem angegebenen Namen und den Attributen der Liste.
 	 * 
 	 * @changed OLI 19.12.2011 - Hinzugef&uuml;gt.
 	 */
@@ -107,15 +92,12 @@ public class Utils {
 	}
 
 	/**
-	 * Erzeugt ein IndexMetaData-Mock mit dem angegebenen Namen zur angegebenen
-	 * Tabelle mit den entsprechenden, gesetzten Spalten.
+	 * Erzeugt ein IndexMetaData-Mock mit dem angegebenen Namen zur angegebenen Tabelle mit den entsprechenden,
+	 * gesetzten Spalten.
 	 * 
-	 * @param indexName
-	 *            Der Name des Index.
-	 * @param table
-	 *            Die Tabelle, zu der der Index erzeugt werden soll.
-	 * @param columnsSet
-	 *            Die Spalten, die in den Index mit einbezogen werden sollen.
+	 * @param indexName  Der Name des Index.
+	 * @param table      Die Tabelle, zu der der Index erzeugt werden soll.
+	 * @param columnsSet Die Spalten, die in den Index mit einbezogen werden sollen.
 	 * 
 	 * @changed OLI 19.12.2011 - Hinzugef&uuml;gt.
 	 */

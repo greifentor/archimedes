@@ -16,7 +16,7 @@ import org.junit.Test;
 import archimedes.legacy.model.ComplexIndicesToSTFWriter;
 import archimedes.legacy.model.DiagrammModel;
 import archimedes.legacy.model.IndexListCleaner;
-import archimedes.model.IndexMetaData;
+import archimedes.legacy.model.IndexMetaData;
 import corent.files.StructuredTextFile;
 
 /**

@@ -20,9 +20,9 @@ import java.sql.Types;
 import org.junit.Before;
 import org.junit.Test;
 
-import archimedes.model.ColumnModel;
-import archimedes.model.SequenceModel;
-import archimedes.model.TableModel;
+import archimedes.legacy.model.ColumnModel;
+import archimedes.legacy.model.SequenceModel;
+import archimedes.legacy.model.TableModel;
 
 /**
  * Tests of the class <CODE>Diagramm</CODE>.

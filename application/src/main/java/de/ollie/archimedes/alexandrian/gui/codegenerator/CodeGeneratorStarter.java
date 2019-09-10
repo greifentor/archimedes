@@ -1,9 +1,8 @@
 package de.ollie.archimedes.alexandrian.gui.codegenerator;
 
-import archimedes.acf.event.CodeFactoryEvent;
-import archimedes.acf.event.CodeFactoryListener;
-import archimedes.model.CodeFactory;
-import archimedes.model.DataModel;
+import archimedes.legacy.model.DataModel;
+import de.ollie.archimedes.alexandrian.codegenerator.CodeFactory;
+import de.ollie.archimedes.alexandrian.codegenerator.CodeFactoryListener;
 
 /**
  * A starter for code generation processes.
@@ -57,12 +56,17 @@ public class CodeGeneratorStarter implements CodeFactoryListener {
 	}
 
 	@Override
-	public void eventFired(CodeFactoryEvent event) {
+	public void exceptionOccurred(Exception exception) {
 		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public void exceptionDetected(CodeFactory event, Throwable exception) {
+	public void messageAppended(String message) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void progressChanged(int newProgressPercentage) {
 		// TODO Auto-generated method stub
 	}
 

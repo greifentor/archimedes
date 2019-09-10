@@ -17,13 +17,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import archimedes.legacy.Utils;
-import archimedes.model.ColumnModel;
-import archimedes.model.DataModel;
-import archimedes.model.DomainModel;
-import archimedes.model.IndexMetaData;
-import archimedes.model.TableModel;
-import archimedes.model.ViewModel;
-import archimedes.scheme.xml.ObjectFactory;
+import archimedes.legacy.model.ColumnModel;
+import archimedes.legacy.model.DataModel;
+import archimedes.legacy.model.DomainModel;
+import archimedes.legacy.model.IndexMetaData;
+import archimedes.legacy.model.TableModel;
+import archimedes.legacy.model.ViewModel;
+import archimedes.legacy.scheme.xml.ObjectFactory;
 
 /**
  * Tests zur Klasse <CODE>DefaultIndexListCleaner</CODE>.

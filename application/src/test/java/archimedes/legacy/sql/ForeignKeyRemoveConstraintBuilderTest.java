@@ -19,11 +19,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import archimedes.legacy.model.ColumnMetaData;
+import archimedes.legacy.model.DataModel;
 import archimedes.legacy.model.TableMetaData;
 import archimedes.legacy.scheme.Diagramm;
 import archimedes.legacy.script.sql.SQLScript;
 import archimedes.legacy.sql.factories.PostgreSQLScriptFactory;
-import archimedes.model.DataModel;
 import corent.files.StructuredTextFile;
 
 /**

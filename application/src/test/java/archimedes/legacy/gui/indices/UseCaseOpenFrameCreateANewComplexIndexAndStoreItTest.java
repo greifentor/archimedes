@@ -16,8 +16,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import archimedes.legacy.model.IndexMetaData;
 import archimedes.legacy.scheme.Diagramm;
-import archimedes.model.IndexMetaData;
 
 /**
  * Dieser Test &Ouml;ffnet das Fenster zur Wartung komplexer Indices, erzeugt

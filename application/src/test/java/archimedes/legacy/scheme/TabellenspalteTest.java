@@ -23,10 +23,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import archimedes.model.DomainModel;
-import archimedes.model.OptionModel;
-import archimedes.model.ReferenceWeight;
-import archimedes.scheme.Option;
+import archimedes.legacy.model.DomainModel;
+import archimedes.legacy.model.OptionModel;
+import archimedes.legacy.model.ReferenceWeight;
 import corent.base.Direction;
 
 /**

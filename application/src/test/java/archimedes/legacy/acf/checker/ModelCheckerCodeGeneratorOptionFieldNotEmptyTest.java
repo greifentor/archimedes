@@ -3,7 +3,7 @@
  *
  * 27.05.2016
  *
- * (c) by HealthCarion
+ * (c) by HO.Lieshoff
  *
  */
 
@@ -20,11 +20,9 @@ import java.util.Properties;
 import org.junit.Before;
 import org.junit.Test;
 
-import archimedes.acf.checker.ModelCheckerCodeGeneratorOptionFieldNotEmpty;
-import archimedes.acf.checker.ModelCheckerMessage;
+import archimedes.legacy.model.DataModel;
+import archimedes.legacy.model.TableModel;
 import archimedes.legacy.scheme.Diagramm;
-import archimedes.model.DataModel;
-import archimedes.model.TableModel;
 import baccara.gui.FileImageProvider;
 import baccara.gui.GUIBundle;
 import baccara.gui.PropertyResourceManager;
