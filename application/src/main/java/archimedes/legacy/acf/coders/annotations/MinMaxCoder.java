@@ -11,10 +11,8 @@ package archimedes.legacy.acf.coders.annotations;
 
 import static corentx.util.Checks.*;
 
-import archimedes.acf.param.*;
 import archimedes.legacy.acf.param.ColParamIds;
 import archimedes.legacy.model.ColumnModel;
-import archimedes.model.*;
 
 /**
  * A coder for minimum and maximum value annotations.

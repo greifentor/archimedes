@@ -9,10 +9,9 @@
 
 package archimedes.legacy.gui.checker;
 
-import static corentx.util.Checks.*;
+import static corentx.util.Checks.ensure;
 
-import archimedes.acf.checker.*;
-
+import archimedes.legacy.acf.checker.ModelCheckerMessage;
 
 /**
  * A listener interface to observe model checker message list frames.
@@ -24,50 +23,47 @@ import archimedes.acf.checker.*;
 
 public interface ModelCheckerMessageListFrameListener {
 
-    public class Event {
+	public class Event {
 
-        public enum Type {
-            CLOSED,
-            GENERATE,
-            MESSAGE_SELECTED;
-        }
+		public enum Type {
+			CLOSED, GENERATE, MESSAGE_SELECTED;
+		}
 
-        private ModelCheckerMessage message = null;
-        private Type type = null;
+		private ModelCheckerMessage message = null;
+		private Type type = null;
 
-        public Event(Type type) {
-            super();
-            ensure(type != null, " type cannot be null.");
-            ensure(type != Type.MESSAGE_SELECTED, "constructor cannot be called for messages "
-                    + "selection."); 
-            this.type = type;
-        }
+		public Event(Type type) {
+			super();
+			ensure(type != null, " type cannot be null.");
+			ensure(type != Type.MESSAGE_SELECTED, "constructor cannot be called for messages " + "selection.");
+			this.type = type;
+		}
 
-        public Event(ModelCheckerMessage message, Type type) {
-            super();
-            ensure(message != null, "message cannot be null.");
-            ensure(type != null, " type cannot be null.");
-            this.message = message;
-            this.type = type;
-        }
+		public Event(ModelCheckerMessage message, Type type) {
+			super();
+			ensure(message != null, "message cannot be null.");
+			ensure(type != null, " type cannot be null.");
+			this.message = message;
+			this.type = type;
+		}
 
-        public ModelCheckerMessage getMessage() {
-            return this.message;
-        }
+		public ModelCheckerMessage getMessage() {
+			return this.message;
+		}
 
-        public Type getType() {
-            return this.type;
-        }
+		public Type getType() {
+			return this.type;
+		}
 
-    }
+	}
 
-    /**
-     * This method will be called if a model checker message list frame throws an event.
-     *
-     * @param event The event thrown by the model checker message list frame.
-     *
-     * @changed OLI 19.05.2016 - Added.
-     */
-    abstract public void eventDetected(Event event);
+	/**
+	 * This method will be called if a model checker message list frame throws an event.
+	 *
+	 * @param event The event thrown by the model checker message list frame.
+	 *
+	 * @changed OLI 19.05.2016 - Added.
+	 */
+	abstract public void eventDetected(Event event);
 
 }

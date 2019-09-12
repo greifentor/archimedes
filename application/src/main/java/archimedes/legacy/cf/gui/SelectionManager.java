@@ -9,13 +9,12 @@
 
 package archimedes.legacy.cf.gui;
 
-import archimedes.model.*;
+import static corentx.util.Checks.ensure;
 
-import static corentx.util.Checks.*;
-
-import java.util.*;
-
-import org.apache.commons.lang3.builder.*;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * A container which adds a selected status to an object.
@@ -29,65 +28,68 @@ import org.apache.commons.lang3.builder.*;
 
 public class SelectionManager<T> {
 
-    private T object = null;
-    private boolean selected = true;
+	private T object = null;
+	private boolean selected = true;
 
-    /**
-     * Creates a new selector for the passed object and the passed selected state.
-     *
-     * @param object The object whose selected state is to store.
-     * @param selected Set this flag if the object is selected.
-     * @throws IllegalArgumentException Passing a null value as object.
-     */
-    public SelectionManager(T object, boolean selected) {
-        super();
-        ensure(object != null, "object cannot be null.");
-        this.object = object;
-        this.setSelected(selected);
-    }
+	/**
+	 * Creates a new selector for the passed object and the passed selected state.
+	 *
+	 * @param object   The object whose selected state is to store.
+	 * @param selected Set this flag if the object is selected.
+	 * @throws IllegalArgumentException Passing a null value as object.
+	 */
+	public SelectionManager(T object, boolean selected) {
+		super();
+		ensure(object != null, "object cannot be null.");
+		this.object = object;
+		this.setSelected(selected);
+	}
 
-    @Override public boolean equals(Object o) {
-        return EqualsBuilder.reflectionEquals(this, o);
-    }
+	@Override
+	public boolean equals(Object o) {
+		return EqualsBuilder.reflectionEquals(this, o);
+	}
 
-    /**
-     * Returns the object whose selection status is managed.
-     *
-     * @return The object whose selection status is managed.
-     */
-    public T getObject() {
-        return this.object;
-    }
+	/**
+	 * Returns the object whose selection status is managed.
+	 *
+	 * @return The object whose selection status is managed.
+	 */
+	public T getObject() {
+		return this.object;
+	}
 
-    @Override public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this);
-    }
+	@Override
+	public int hashCode() {
+		return HashCodeBuilder.reflectionHashCode(this);
+	}
 
-    /**
-     * Checks if the object is selected.
-     *
-     * @return "true" if the object is selected.
-     */
-    public boolean isSelected() {
-        return this.selected;
-    }
+	/**
+	 * Checks if the object is selected.
+	 *
+	 * @return "true" if the object is selected.
+	 */
+	public boolean isSelected() {
+		return this.selected;
+	}
 
-    /**
-     * Sets the selected flag to the passed value.
-     *
-     * @param selected The new value for the selected flag.
-     */
-    public void setSelected(boolean selected) {
-        this.selected = selected;
-    }
+	/**
+	 * Sets the selected flag to the passed value.
+	 *
+	 * @param selected The new value for the selected flag.
+	 */
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
 
-    /**
-     * Returns a string representation for the selection manager.
-     *
-     * @return A string representation for the selection manager.
-     */
-    @Override public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-    }
+	/**
+	 * Returns a string representation for the selection manager.
+	 *
+	 * @return A string representation for the selection manager.
+	 */
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+	}
 
 }

@@ -513,7 +513,7 @@ public class Diagramm extends AbstractGUIDiagramModel implements DiagrammModel {
 		throw new IllegalArgumentException("Klasse Domain verfuegt nicht ueber ein Attribut " + id + " (set)!");
 	}
 
-	public int compareTo(Object o) {
+	public int compareTo(DiagrammModel o) {
 		Diagramm d = (Diagramm) o;
 		int erg = this.getName().compareTo(d.getName());
 		if (erg == 0) {

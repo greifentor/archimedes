@@ -11,7 +11,7 @@ package archimedes.legacy.gui.checker;
 
 import java.awt.Frame;
 
-import archimedes.acf.checker.ModelCheckerMessage;
+import archimedes.legacy.acf.checker.ModelCheckerMessage;
 import baccara.gui.GUIBundle;
 import corent.gui.JDialogWithInifile;
 

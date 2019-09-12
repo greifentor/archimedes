@@ -3,7 +3,7 @@
  *
  * AUTOMATISCH VON ARCHIMEDES GENERIERT!!!
  *
- * 10.09.2019
+ * 11.09.2019
  *
  * (c) by ollie
  *
@@ -35,7 +35,7 @@ import platon.scheme.db.*;
  *     <P>
  *
  * @changed
- *     ?? 10.09.2019 - Hinzugef&uuml;gt.
+ *     ?? 11.09.2019 - Hinzugef&uuml;gt.
  *     <P>
  *
  */

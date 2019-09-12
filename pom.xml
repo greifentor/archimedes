@@ -70,6 +70,7 @@
 	</build>
 
 	<modules>
+		<module>core</module>
 		<module>application</module>
 		<module>shell</module>
 	</modules>

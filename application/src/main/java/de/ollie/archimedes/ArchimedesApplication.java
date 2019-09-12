@@ -3,7 +3,7 @@ package de.ollie.archimedes;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.ComponentScan;
 
-import archimedes.Archimedes;
+import archimedes.legacy.Archimedes;
 
 // @SpringBootApplication
 @ComponentScan("de.ollie")

@@ -9,11 +9,12 @@
 
 package archimedes.legacy.acf;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
-import archimedes.acf.util.checker.*;
 import archimedes.legacy.acf.util.checker.ChangedChecker;
-import corentx.io.*;
+import corentx.io.FileUtil;
 
 /**
  * A default implementation for an unchanged by tag checker.
@@ -25,29 +26,30 @@ import corentx.io.*;
 
 public class DefaultUnchangedByTagChecker implements UnchangedByTagChecker {
 
-    /**
-     * @changed OLI 20.09.2017 - Added.
-     */
-    @Override public boolean isFileUnchanged(String absoluteFileName) {
-        File f = new File(absoluteFileName);
-        if (f.exists()) {
-            return this.checkFile(f);
-        }
-        return true;
-    }
+	/**
+	 * @changed OLI 20.09.2017 - Added.
+	 */
+	@Override
+	public boolean isFileUnchanged(String absoluteFileName) {
+		File f = new File(absoluteFileName);
+		if (f.exists()) {
+			return this.checkFile(f);
+		}
+		return true;
+	}
 
-    private boolean checkFile(File f) {
-        try {
-            String c = FileUtil.readTextFromFile(f.getAbsolutePath());
-            if (c.contains(ChangedChecker.UNCHANGED_TEXT)) {
-                return true;
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
+	private boolean checkFile(File f) {
+		try {
+			String c = FileUtil.readTextFromFile(f.getAbsolutePath());
+			if (c.contains(ChangedChecker.UNCHANGED_TEXT)) {
+				return true;
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 
 }

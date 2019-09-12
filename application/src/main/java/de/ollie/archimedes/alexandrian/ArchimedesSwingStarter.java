@@ -1,8 +1,8 @@
 package de.ollie.archimedes.alexandrian;
 
-import javax.annotation.PostConstruct;
+// import javax.annotation.PostConstruct;
 
-import archimedes.Archimedes;
+import archimedes.legacy.Archimedes;
 
 /**
  * Starts the Archimedes (Alexandrian) application.
@@ -13,7 +13,7 @@ import archimedes.Archimedes;
 // @Component
 public class ArchimedesSwingStarter {
 
-	@PostConstruct
+	// @PostConstruct
 	public void startApplication(String[] args) {
 		Archimedes.main(args);
 	}
